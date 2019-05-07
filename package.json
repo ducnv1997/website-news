@@ -1,5 +1,5 @@
 {
-  "name": "forum",
+  "name": "webnews",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,8 @@
     "migrate:make": "node node_modules/.bin/knex migrate:make",
     "migrate:latest": "node node_modules/.bin/knex migrate:latest",
     "migrate:rollback": "node node_modules/.bin/knex migrate:rollback",
-    "migrate:currentVersion": "node node_modules/.bin/knex migrate:currenVersion"
+    "migrate:currentVersion": "node node_modules/.bin/knex migrate:currenVersion",
+    "seed:run": "node node_modules/.bin/knex seed:run"
   },
   "author": "",
   "license": "ISC",
