@@ -7,7 +7,6 @@ exports.seed = function(knex, Promise) {
       return knex('category').insert([
         {name:"the thao"},
         {name:"thoi trang"},
-        {name:"quan su"},
         {name:"giao duc"},
         {name:"y te"},
       ]);
