@@ -17,7 +17,7 @@ exports.seed = function(knex, Promise) {
           email   :"test2@gmail.com",
           id_role :2,
           username :"test2@gmail.com",
-          password :123456
+          password :"$2b$08$X1UkamwGSSJzepVWmBNPGOOvRbiCqM9CeUSM5U2lhFeF0Iuq5H7q."
         },
       ]);
     });

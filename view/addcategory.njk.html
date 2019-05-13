@@ -1,0 +1,22 @@
+{% extends "layout.njk.html" %}
+
+{% block title %}
+  Addd Category
+{% endblock %}
+
+{% block content %}
+
+<form action="/handleaddcategory" method="POST" enctype="multipart/form-data">
+	<div class="row mx-auto col-md-6">
+		<div class="col-md-6">
+			<div class="form-group">
+                <label for="nameCategory"> Input name category</label>
+            </div>
+            <div>
+                <input type="text" class="form-control mb-3" name="nameCategory" id="nameCategory">
+                <button type="submit" class="btn btn-primary btn-block"> ADD  </button>
+            </div>
+		</div>
+	</div>
+</form>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "layout.njk.html" %}
+
+{% block title %}
+  Category
+{% endblock %}
+
+{% block content %}
+<h1>This is Category Page Manager</h1>
+<div class="col-md-8 mx-auto mt-5">
+    <div class="row tex">
+        <div class="col-md-8 float left">
+          <a href="/addcategory" class="btn btn-primary"> Add category + </a>
+          <a href="" class="btn btn-primary">View all</a>
+        </div>
+      </div>
+<table class="table">
+  <thead>
+      <tr>
+          <th>Id Category</th>
+          <th>Name Category</th>
+          <th colspan="2" width="3%" class="text-center">Action</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% for item in categorys %}
+      <tr id="row{{ item.id }}">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>
+          <a href="/editcategory?id={{ item.id }}&name={{ item.name }}" class="btn btn-info" >Edit</a>
+        </td>
+        <td>
+          <button class="btn btn-danger btnDelete" id="{{ item.id }}">Delete</button>
+        </td>
+      </tr>
+      {% endfor %}
+  </tbody>
+  <tbody>
+</table>
+</div>
+{% endblock %}
+{% block bottom %}
+<script type="text/javascript">
+  $(function (){
+    $('.btnDelete').click(function() {
+      let click = $(this);
+      let idCate = click.attr( "id" );
+					$.ajax({
+						url: "/deletecategory",
+						data: { id:idCate },
+            type: 'POST',
+						beforeSend: function(){
+							click.text('loading');
+						},
+						success: function(result){
+              if (result) {
+                $('#row'+idCate).hide();
+                // window.location.reload(true);
+              }else{
+                alert('fail');
+              }
+              
+						}
+					});
+			});
+  })
+</script>
+{% endblock %}

@@ -1,11 +1,11 @@
 require('dotenv').config();
-module.exports[process.env.NODE_ENV] = {
+module.exports[process.env.NODE_ENV]= {
     client: 'mysql',
     connection: {
-        host: '127.0.0.1',
-        user: 'root',
-        password: '1',
-        database: 'webnews'
+        host: process.env.MYSQL_HOST || '127.0.0.1',
+        user: process.env.MYSQL_USER || 'root',
+        password: process.env.MYSQL_PASSWORD || 1,
+        database: process.env.MYSQL_DATABASE || 'webnews'
     },
     migrations: {
         directory: __dirname + '/database/migrations/',

@@ -7,13 +7,13 @@ exports.seed = function(knex, Promise) {
       return knex('posts').insert([
         { id_category:1,
           id_user    :2,
-          title      :"post demo",
+          title      :'Cận cảnh 10 hecta rừng thông chết đứng vì bị đầu độc ở Lâm Đồng',
           content    : "bai post demo 1"
         },
         { id_category:3,
           id_user    :2,
-          title      :"post demo",
-          content    : "bai post demo 1"
+          title      :"Hương Tràm: Từ ca sĩ chuyên ăn phạt vì mặc hở hang đến người đẹp sexy khó ai chê",
+          content    : "bai post demo 2"
         },
       ]);
     });

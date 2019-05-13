@@ -10,8 +10,8 @@ exports.up = function(knex, Promise) {
         table.timestamp('updated_at').defaultTo(knex.fn.now());    
     })
     .table('comment', function (table) {
-        table.foreign('id_post').references('posts.id');
-        table.foreign('id_user').references('users.id');
+        table.foreign('id_post').references('posts.id').onUpdate('RESTRICT').onDelete('CASCADE');
+        table.foreign('id_user').references('users.id').onUpdate('RESTRICT').onDelete('CASCADE');
     })
 };
 

@@ -1,0 +1,22 @@
+{% extends "layout.njk.html" %}
+
+{% block title %}
+  Edit Category
+{% endblock %}
+
+{% block content %}
+
+<form action="/handleeditcategory" method="POST" enctype="multipart/form-data">
+	<div class="row mx-auto col-md-6">
+		<div class="col-md-6">
+			<div class="form-group">
+                <label for="nameCategory"> New name category : </label>
+            </div>
+            <div>
+                <input type="text" class="form-control mb-3" name="nameCategory" id="nameCategory" value="{{ name }}">
+                <button type="submit" class="btn btn-primary btn-block"> EDIT  </button>
+            </div>
+		</div>
+	</div>
+</form>
+{% endblock %}
