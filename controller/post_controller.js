@@ -18,8 +18,11 @@ class PostController {
     }
 
     async handleAddPost(context) {
-        console.log('123');
-        let kq = context.request.body
+        // console.log('123');
+       console.log(context.request.body.content)
+        // let abc = kq.replace(/(<([^>]+)>)/ig,"");
+        let kq = context.request.body.content;
+        console.log( kq)
         context.render('test.njk.html', {kq})
     }
 }

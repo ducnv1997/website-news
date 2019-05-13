@@ -17,7 +17,7 @@ const session           = require('koa-session');
 const koaBodyParser      = require('koa-bodyparser')
 
 const app           = new koa();
-const staticPath    = './view';
+const staticPath    = '/view';
 
 
 app.keys = ['some secret hurr'];
@@ -37,6 +37,6 @@ app.use(authProvider());
 app.use(uploadProvider());
 
 app.use(route.routes());
-app.listen(9999, () => {
-    console.log("server run in port 9999");
+app.listen(process.env.PORT, () => {
+    console.log("server run in port " + process.env.PORT);
 });

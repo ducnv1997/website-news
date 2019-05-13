@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/license
+ * @license Copyright (c) 2003-2018, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 /**
@@ -10,13 +10,13 @@
  * If you would like to build CKEditor online again
  * (for example to upgrade), visit one the following links:
  *
- * (1) https://ckeditor.com/cke4/builder
+ * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) https://ckeditor.com/cke4/builder/8ff7b71bcccc296bcc3a4a5b82942d17
+ * (2) http://ckeditor.com/builder/2f57fc244039d7273aeb5bb45ddb4866
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) https://ckeditor.com/cke4/builder/download/8ff7b71bcccc296bcc3a4a5b82942d17
+ * (3) http://ckeditor.com/builder/download/2f57fc244039d7273aeb5bb45ddb4866
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -38,7 +38,6 @@ var CKBUILDER_CONFIG = {
 		'.jshintignore',
 		'.jshintrc',
 		'.mailmap',
-		'.npm',
 		'.travis.yml',
 		'bender-err.log',
 		'bender-out.log',

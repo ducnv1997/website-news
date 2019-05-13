@@ -11,8 +11,8 @@ Addd Category
 <form action="/uploadimages" method="POST" enctype =  "multipart/form-data">
         <input type="file" name="image" multiple="multiple">
         <button type="submit">upload to sever</button>
-        </form>
-<form action="/handleaddpost" method="POST" enctype="multipart/form-data">
+</form>
+<form action="/handleaddpost" method="POST">
 <div class="row mx-1">
         <div class="col-md-3">
                 <div class="form-group">
@@ -56,15 +56,10 @@ Addd Category
 // CKEDITOR.replace( 'texteditor', {
 //  filebrowserImageUploadUrl: '/uploader'
 // } );
-
-CKEDITOR.replace( 'texteditor'),{
-        extraPlugins: 'uploadcare',
-        uploadcare: {
-          multiple: true
-      }
-};
-
-
+CKEDITOR.replace('texteditor', {
+	"extraPlugins" : 'imagebrowser',
+        "imageBrowser_listUrl" : "/files"
+});
 </script>
 </body>
 {% endblock %}

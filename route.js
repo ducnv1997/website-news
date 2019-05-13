@@ -1,10 +1,10 @@
 const Route = require('koa-router');
 const route = new Route();
-
+const fs = require('fs')
 const multer  =   require('koa-multer');
 const storage =   multer.diskStorage({
     destination: function (req, file, callback) {
-      callback(null, './images');
+      callback(null, './view/public/images');
     },
     filename: function (req, file, callback) {
       let imageName = Date.now() +"-"+ file.originalname;
@@ -44,8 +44,30 @@ route.post('/deletecategory',categoryController.deleteCategory);
 
 route.get('/post',postController.index);
 route.get('/addpost',postController.addPost);
-route.post('/uploadimages',upload);
 
+route.get('/files',async function(context) {
+  const images = fs.readdirSync('view/public/images')
+  var sorted = []
+  for (let item of images){
+      if(item.split('.').pop() === 'png'
+      || item.split('.').pop() === 'jpg'
+      || item.split('.').pop() === 'jpeg'
+      || item.split('.').pop() === 'svg'){
+          var abc = {
+                "image" : "public/images/"+item,
+                "folder" : '/'
+          }
+          sorted.push(abc)
+      }
+  }
+  context.body = sorted;
+});
+
+
+route.post('/uploadimages',upload, async(context) => {
+  console.log('999');
+  console.log(context.request)
+});
 route.post('/handleaddpost', postController.handleAddPost);
 
 
