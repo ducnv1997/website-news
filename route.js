@@ -1,6 +1,5 @@
-const Route = require('koa-router');
-const route = new Route();
-const fs = require('fs')
+const Router = require('koa-router');
+const router = new Router();
 const multer  =   require('koa-multer');
 const storage =   multer.diskStorage({
     destination: function (req, file, callback) {
@@ -11,9 +10,7 @@ const storage =   multer.diskStorage({
       callback(null,imageName);
     }
   });
-const upload = multer({ storage : storage}).array('image',100)
-
-
+const upload = multer({ storage : storage})
 
 
 
@@ -29,51 +26,33 @@ const postController        = new PostController();
 
 
 
-route.get('/admin',loginController.loginView);
-route.get('/dashboard',dashboardController.index);
-route.post('/handlelogin',loginController.handleLogin);
-route.post('/logout',dashboardController.logout);
+router.get('/admin',loginController.loginView);
+router.get('/dashboard',dashboardController.index);
+router.post('/handlelogin',loginController.handleLogin);
+router.post('/logout',dashboardController.logout);
 
-route.get('/category',categoryController.index);
-route.get('/editcategory',categoryController.editCategory);
-route.post('/handleeditcategory',categoryController.handleEditCategory);
-route.get('/addcategory',categoryController.addCategory);
-route.post('/handleaddcategory',categoryController.handleAddCategory);
-route.post('/deletecategory',categoryController.deleteCategory);
-
-
-route.get('/post',postController.index);
-route.get('/addpost',postController.addPost);
-
-route.get('/files',async function(context) {
-  const images = fs.readdirSync('view/public/images')
-  var sorted = []
-  for (let item of images){
-      if(item.split('.').pop() === 'png'
-      || item.split('.').pop() === 'jpg'
-      || item.split('.').pop() === 'jpeg'
-      || item.split('.').pop() === 'svg'){
-          var abc = {
-                "image" : "public/images/"+item,
-                "folder" : '/'
-          }
-          sorted.push(abc)
-      }
-  }
-  context.body = sorted;
-});
+router.get('/category',categoryController.index);
+router.get('/editcategory',categoryController.editCategory);
+router.post('/handleeditcategory',categoryController.handleEditCategory);
+router.get('/addcategory',categoryController.addCategory);
+router.post('/handleaddcategory',categoryController.handleAddCategory);
+router.post('/deletecategory',categoryController.deleteCategory);
 
 
-route.post('/uploadimages',upload, async(context) => {
-  console.log('999');
-  console.log(context.request)
-});
-route.post('/handleaddpost', postController.handleAddPost);
+router.get('/post',postController.index);
+router.get('/addpost',postController.addPost);
+
+router.get('/files',postController.getImages);
+router.post('/uploadimages',upload.array('image',100), postController.uploadImages);
+
+router.post('/delete_file',postController.deleteImage)
+router.post('/handleaddpost',upload.single('avatar'), postController.handleAddPost);
+router.post('/deletepost',postController.deletePost);
+router.get('/editpost',postController.editPost);
+router.post('/handleeditpost', postController.handleEditPost);
 
 
 
-
-
-module.exports = route;
+module.exports = router;
 
 

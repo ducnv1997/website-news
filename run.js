@@ -1,4 +1,4 @@
-const route             = require('./route');
+const router             = require('./route');
 const koa               = require('koa');
 const knexFile          = require('./knexfile')
 const knex              = require('knex')(knexFile['development']);
@@ -9,8 +9,8 @@ const nunjuckProvider   = require('./nunjucks.provider');
 const hashProvider      = require('./hash/hash.provider');
 const authProvider      = require('./auth/authentication.provider');
 
-const uploadProvider    = require('./upload/upload.provider')
-
+const imageProvider    = require('./upload/image.Provider');
+const fs                = require('fs'); 
 const path              = require('path');
 const static            = require('koa-static');
 const session           = require('koa-session');
@@ -25,6 +25,8 @@ app.use(static(
     path.join(__dirname, staticPath)
 ));
 
+
+
 app.use(koaBodyParser())
 app.use(session(app));
 app.use(nunjuckProvider());
@@ -33,10 +35,9 @@ app.use(userProvider(knex));
 app.use(cateProvider(knex));
 app.use(postProvider(knex));
 app.use(authProvider());
+app.use(imageProvider(fs));
 
-app.use(uploadProvider());
-
-app.use(route.routes());
+app.use(router.routes());
 app.listen(process.env.PORT, () => {
     console.log("server run in port " + process.env.PORT);
 });

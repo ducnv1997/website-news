@@ -13,11 +13,11 @@ class Authentication {
             console.log('password fail');
             return false;
         }else{
-            return true;
+            return User[0].id;
         }
     }
-    createSessionLogined(username) {
-        this.session.logined = username;
+    createSessionLogined(id) {
+        this.session.logined = id;
     }
 
     destroySessionLogined() {

@@ -1,31 +1,35 @@
 
 
 class Image {
-    constructor(upload) {
-        this.upload  = upload;
+    constructor(fs, upload) {
+        this.fs     = fs;
+        this.upload = upload
     }
 
-    async uploadImage(){
-    var multer  =   require('koa-multer');
-    var storage =   multer.diskStorage({
-    destination: function (req, file, callback) {
-      callback(null, './');
-    },
-    filename: function (req, file, callback) {
-      let tenfile = Date.now() + file.originalname
-      callback(null,tenfile);
+    readImages() {
+        const images = this.fs.readdirSync('view/public/images');
+        let data = [];
+        for (let item of images){
+          if(item.split('.').pop() === 'png'
+          || item.split('.').pop() === 'jpg'
+          || item.split('.').pop() === 'jpeg'
+          || item.split('.').pop() === 'svg'){
+              var imgIndo = {
+                    "image" : "public/images/"+item,
+                    "folder" : '/'
+              }
+              data.push(imgIndo)
+          }
+      }
+      return data;
     }
-  });
-  var upload = multer({ storage : storage})
-    upload.array('uploadimages',20);
-       console.log("day la ham upload images");
-        
+
+    deleteImage(path) {
+      if(this.fs.existsSync(path)){
+        let kq = this.fs.unlinkSync(path);
+      }
+      
     }
-    // async uploadImage() {
-    //     console.log('aj')
-    //     let a = context.request.body.username;
-    //     console.log(a)
-    // }
 }
 
 module.exports = Image;

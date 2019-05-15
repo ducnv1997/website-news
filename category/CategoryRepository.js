@@ -11,14 +11,10 @@ class CategoryRepository {
     }
 
     async editCategoryById(id, newName) {
-        try {
-            await this.knex('category').where('id', '=', id).update({
+            return await this.knex('category').where('id', '=', id).update({
                 name: newName,
                 thisKeyIsSkipped: undefined
             })
-        } catch (e) {
-            console.log(e);
-        }
     }
 
     async addCategory(nameCategory) {

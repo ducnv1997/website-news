@@ -31,14 +31,14 @@ class CategoryController {
         }
         let name = context.query.name;
         context.render('editcategory.njk.html',{ name });
-        context.session.id = context.query.id;
+        context.session.idcate = context.query.id;
     }
 
     async handleEditCategory(context,next) {
         let nameProduct = context.request.body.nameCategory;
-        if(context.session.id) {
-            context.categoryRepository.editCategoryById(context.session.id, nameProduct);
-            context.session.id = null;
+        if(context.session.idcate) {
+            context.categoryRepository.editCategoryById(context.session.idcate, nameProduct);
+            context.session.idcate = null;
         } 
         context.redirect('/category');
     }
@@ -46,7 +46,6 @@ class CategoryController {
     async deleteCategory(context, next) {
         let id = context.request.body.id;
         context.response.body = await context.categoryRepository.deleteCategoryById(id);
-        // context.response.body = "99999";
     }
 }
 

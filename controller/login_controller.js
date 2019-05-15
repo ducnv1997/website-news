@@ -9,15 +9,14 @@ class LoginController {
         await context.render('login.njk.html');
     }
 
-    async handleLogin(context, next) {
-        // console.log(context.request)
+    async handleLogin(context) {
         let username = context.request.body.username;
         let password = context.request.body.password;
         
         
-        let user = await context.authentication.checkAcc(username,password);
-        if(user){
-            context.authentication.createSessionLogined(username);
+        let idUser = await context.authentication.checkAcc(username,password);
+        if(idUser){
+            context.authentication.createSessionLogined(idUser);
             return context.redirect('/dashboard');
         }
         context.redirect('/admin');

@@ -7,40 +7,36 @@ Addd Category
 {% block content %}
 <style>
 </style>
-<h1>Page add post </h1>
-<form action="/uploadimages" method="POST" enctype ="multipart/form-data">
-        <input type="file" name="image" multiple="multiple">
-        <button type="submit">upload images to sever</button>
-</form>
+<h1>Page edit post </h1>
 <hr class="my-3">
-<form action="/handleaddpost" method="POST" enctype ="multipart/form-data">
+<form action="/handleeditpost" method="POST">
 <div class="row mx-1">
         <div class="col-md-3">
                 <div class="form-group">
                         <label for="title"> Title : </label>
-                        <textarea class="form-control" name="title" id="title" rows="5"></textarea>
+                        <textarea  class="form-control" name="title" id="title" rows="5">{{ dataPost[0].title }}</textarea>
                 </div>
                 <div class="form-group border-top">
                         <p> Categories : </p>
                         {% for item in categories %}
                         <div>
-                                <input type="radio" name="cattegory" id="cattegory" value="{{ item.id }}">
-                                <label for="cattegory">{{ item.name }}</label>
+                            <input type="radio" name="cattegory" id="cattegory" value="{{ item.id }}">
+                            <label for="cattegory">{{ item.name }}</label>
                         </div>
                         {% endfor %}
                 </div>
-                <div class="form-group ">
+                <!-- <div class="form-group ">
                         <label for="avatar">Avatar post</label>
                         <input type="file" name="avatar" id="avatar">
-                </div>
+                </div> -->
                 <div class="form-group border-top mt-3">
                         <label for="description">Description</label>
-                        <textarea class="form-control" name="description" id="description" rows="5"></textarea>
+                        <textarea class="form-control" name="description" id="description" rows="5">{{ dataPost[0].description }}</textarea>
                 </div>
         </div>	
         <div class="col-md-9 form-group">
                 <label for="content">Content</label>
-                <textarea class="content" name="content" id="texteditor"></textarea>
+                <textarea class="content" name="content" id="texteditor">{{ dataPost[0].content | safe }}</textarea>
         </div>
         <div class="col-md-6 offset-md-3 mt-3 mb-3">
                 <button type="submit" class="btn btn-primary btn-block"> ADD POST + </button>
@@ -50,9 +46,9 @@ Addd Category
 {% endblock %}
 {% block bottom %}
 <script> 
-CKEDITOR.replace('texteditor', {
-	"extraPlugins" : 'imagebrowser',
-        "imageBrowser_listUrl" : "/files"
-});
+        CKEDITOR.replace('texteditor', {
+            "extraPlugins" : 'imagebrowser',
+                "imageBrowser_listUrl" : "/files"
+        });
 </script>
 {% endblock %}

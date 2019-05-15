@@ -50,12 +50,11 @@
 						data: { id:idCate },
             type: 'POST',
 						beforeSend: function(){
-							click.text('loading');
+							click.text('loading...');
 						},
 						success: function(result){
               if (result) {
                 $('#row'+idCate).hide();
-                // window.location.reload(true);
               }else{
                 alert('fail');
               }

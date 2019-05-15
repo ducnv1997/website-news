@@ -9,6 +9,10 @@ class User {
         this.password  = password;
     }
 
+    getId() {
+        return this.id;
+    }
+
     getFullname() {
         return this.fullname;
     }

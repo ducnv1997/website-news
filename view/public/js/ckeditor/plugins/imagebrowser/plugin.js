@@ -8,7 +8,6 @@ CKEDITOR.plugins.add('imagebrowser', {
 		if (editor.config.baseHref) {
 			url += "&baseHref=" + encodeURIComponent(editor.config.baseHref);
 		}
-
 		editor.config.filebrowserImageBrowseUrl = url;
 	}
 });
