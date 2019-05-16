@@ -1,9 +1,6 @@
 class DashboardController {
 
     async index(context) {
-        if(!context.authentication.checkSessionLogined()) {
-            return context.redirect('/admin');
-        }
         await context.render('dashboard.njk.html');
     }
 

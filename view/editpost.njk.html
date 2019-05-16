@@ -9,7 +9,7 @@ Addd Category
 </style>
 <h1>Page edit post </h1>
 <hr class="my-3">
-<form action="/handleeditpost" method="POST">
+<form action="/admin/handleeditpost" method="POST">
 <div class="row mx-1">
         <div class="col-md-3">
                 <div class="form-group">
@@ -20,7 +20,11 @@ Addd Category
                         <p> Categories : </p>
                         {% for item in categories %}
                         <div>
-                            <input type="radio" name="cattegory" id="cattegory" value="{{ item.id }}">
+                        {% if item.name == dataPost[0].name %}
+                        <input type="radio" name="cattegory" id="cattegory" value="{{ item.id }}" checked="checked">
+                        {% else %}
+                        <input type="radio" name="cattegory" id="cattegory" value="{{ item.id }}">
+                        {% endif %}
                             <label for="cattegory">{{ item.name }}</label>
                         </div>
                         {% endfor %}
@@ -47,7 +51,7 @@ Addd Category
 {% block bottom %}
 <script> 
         CKEDITOR.replace('texteditor', {
-            "extraPlugins" : 'imagebrowser',
+                "extraPlugins" : 'imagebrowser',
                 "imageBrowser_listUrl" : "/files"
         });
 </script>

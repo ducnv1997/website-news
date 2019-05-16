@@ -3,9 +3,6 @@
 class LoginController {
 
     async loginView(context) {
-        if(context.authentication.checkSessionLogined()) {
-            return context.redirect('/dashboard');
-        }
         await context.render('login.njk.html');
     }
 
@@ -17,7 +14,7 @@ class LoginController {
         let idUser = await context.authentication.checkAcc(username,password);
         if(idUser){
             context.authentication.createSessionLogined(idUser);
-            return context.redirect('/dashboard');
+            return context.redirect('/admin/dashboard');
         }
         context.redirect('/admin');
     }

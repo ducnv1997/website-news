@@ -28,7 +28,6 @@ class Image {
       if(this.fs.existsSync(path)){
         let kq = this.fs.unlinkSync(path);
       }
-      
     }
 }
 

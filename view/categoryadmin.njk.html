@@ -9,7 +9,7 @@
 <div class="col-md-8 mx-auto mt-5">
     <div class="row tex">
         <div class="col-md-8 float left">
-          <a href="/addcategory" class="btn btn-primary"> Add category + </a>
+          <a href="/admin/addcategory" class="btn btn-primary"> Add category + </a>
           <a href="" class="btn btn-primary">View all</a>
         </div>
       </div>
@@ -27,7 +27,7 @@
         <td>{{ item.id }}</td>
         <td>{{ item.name }}</td>
         <td>
-          <a href="/editcategory?id={{ item.id }}&name={{ item.name }}" class="btn btn-info" >Edit</a>
+          <a href="/admin/editcategory?id={{ item.id }}&name={{ item.name }}" class="btn btn-info" >Edit</a>
         </td>
         <td>
           <button class="btn btn-danger btnDelete" id="{{ item.id }}">Delete</button>
@@ -46,7 +46,7 @@
       let click = $(this);
       let idCate = click.attr( "id" );
 					$.ajax({
-						url: "/deletecategory",
+						url: "/admin/deletecategory",
 						data: { id:idCate },
             type: 'POST',
 						beforeSend: function(){

@@ -1,9 +1,6 @@
 class PostController {
 
     async index(context) {
-        if(!context.authentication.checkSessionLogined()) {
-            return context.redirect('/admin');
-        }
         let posts = await context.postRepository.getAllPost();
         context.render('post.njk.html', {posts});
     }
@@ -26,16 +23,13 @@ class PostController {
     }
 
     async addPost(context) {
-        if(!context.authentication.checkSessionLogined()) {
-            return context.redirect('/admin');
-        }
         let categories = await context.categoryRepository.getAllCategory();
         context.render('addpost.njk.html', {categories});
     }
 
     async handleAddPost(context) {
         await context.postRepository.addPost(context.req, context.session.logined);
-        context.redirect('/post');
+        context.redirect('/admin/post');
     }
 
     async deletePost(context) {
@@ -43,15 +37,15 @@ class PostController {
     }
 
     async editPost(context) {
-        let dataPost = await context.postRepository.getPostById(context.query.id);
+        let dataPost = await context.postRepository.getDataPostById(context.query.id);
         let categories = await context.categoryRepository.getAllCategory();
         context.render('editpost.njk.html', { categories,dataPost });
         context.session.idpost = context.query.id;
     }
 
     async handleEditPost(context) {
-        await context.postRepository.editPostBy(context.session.idpost, context.request.body)
-        context.redirect('/post');
+        await context.postRepository.editPostById(context.session.idpost, context.request.body)
+        context.redirect('/admin/post');
     }
 }
 module.exports = PostController;

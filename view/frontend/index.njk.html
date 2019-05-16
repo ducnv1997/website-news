@@ -1,0 +1,36 @@
+{% extends "frontend/layout.njk.html" %}
+
+{% block content %}
+<!-- {{ posts[0] }} -->
+<div class="archive-posts-area bg-white p-30 mb-30 box-shadow mt-3">
+        <!-- Single Catagory Post -->
+        {% for item in posts  %}
+        <div class="single-catagory-post d-flex flex-wrap">
+            <!-- Thumbnail -->
+            <div class="post-thumbnail bg-img" style=" background-image: url({{item.avatar}}) ";>
+            </div>
+
+            <!-- Post Contetnt -->
+            <div class="post-content">
+                <a href="/contentpost?id={{item.id}}" class="post-title">{{ item.title }}</a>
+                <!-- Post Meta -->
+                <div class="post-meta-2">
+                </div>
+                <p>{{ item.description }}</p>
+                <a href="#" class="float-right"><i class="fa fa-eye" aria-hidden="true"></i> {{item.view}}</a>
+                <p>{{ item.created_at }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination">
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#"><i class="ti-angle-right"></i></a></li>
+            </ul>
+        </nav>
+
+    </div>
+{% endblock %}

@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
         table.integer('id_user').unsigned();
         table.string('title',255).collate('utf8_unicode_ci').notNullable();
         table.string('avatar',255);
-        table.string('description',255).collate('utf8_unicode_ci');
+        table.text('description').collate('utf8_unicode_ci');
         table.text('content').collate('utf8_unicode_ci');
         table.integer('view').defaultTo(0);
         table.timestamp('created_at').defaultTo(knex.fn.now());
