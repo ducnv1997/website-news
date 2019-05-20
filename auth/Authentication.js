@@ -6,20 +6,27 @@ class Authentication {
     }   
     async checkAcc(user, pass) {
         let User = await this.adminRepository.getUser(user);
-        if(!User[0]){
-            return false;
-        }else if(!await this.bcrypt.checkPassword(pass,User[0].password)){
+         if( !User[0] ||  !await this.bcrypt.checkPassword(pass,User[0].password) && User[0].role == "admin" ) {
             return false;
         }else{
-            return User[0].id;
+            return User[0];
         }
     }
+
     createSessionLogined(id) {
         this.session.logined = id;
     }
 
     destroySessionLogined() {
         this.session.logined = null;
+    }
+
+    createSessionUserLogined(username) {
+        this.session.UserLogined = username;
+    }
+
+    destroySessionUserLogined() {
+        this.session.UserLogined = null;
     }
 }
 

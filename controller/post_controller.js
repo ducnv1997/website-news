@@ -28,8 +28,20 @@ class PostController {
     }
 
     async handleAddPost(context) {
-        await context.postRepository.addPost(context.req, context.session.logined);
-        context.redirect('/admin/post');
+        let bodyRequest = context.req.body;
+        if (context.req.file) {
+            let checkEmpty  = await context.validateFormMiddleware.checkEmptyDataForm([bodyRequest.title, bodyRequest.cattegory, bodyRequest.description, bodyRequest.content, context.req.file.path]);
+
+            if(checkEmpty){
+                context.alert(checkEmpty);
+            }else{
+                await context.postRepository.addPost(context.req, context.session.logined);
+            }
+        }else{
+             context.alert("you can choice images avater post")
+        }
+        return context.redirect('/admin/post');
+
     }
 
     async deletePost(context) {

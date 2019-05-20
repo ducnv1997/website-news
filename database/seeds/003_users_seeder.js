@@ -19,6 +19,12 @@ exports.seed = function(knex, Promise) {
           username :"test2@gmail.com",
           password :"$2b$08$X1UkamwGSSJzepVWmBNPGOOvRbiCqM9CeUSM5U2lhFeF0Iuq5H7q."
         },
+        { fullname:"nguyen van nam",
+          address :"ha noi",
+          email   :"test3@gmail.com",
+          username :"test3@gmail.com",
+          password :"$2b$08$X1UkamwGSSJzepVWmBNPGOOvRbiCqM9CeUSM5U2lhFeF0Iuq5H7q."
+        },
       ]);
     });
 };

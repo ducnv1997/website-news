@@ -5,10 +5,10 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('category').insert([
-        {name:"the thao"},
-        {name:"thoi trang"},
-        {name:"giao duc"},
-        {name:"y te"},
+        {name:"Thể thao"},
+        {name:"Du lịch"},
+        {name:"Công nghệ"},
+        {name:"Showbiz"},
       ]);
     });
 };

@@ -7,7 +7,7 @@
         {% for item in posts  %}
         <div class="single-catagory-post d-flex flex-wrap">
             <!-- Thumbnail -->
-            <div class="post-thumbnail bg-img" style=" background-image: url({{item.avatar}}) ";>
+            <div class="post-thumbnail bg-img" style=" background-image: url({{item.avatar}}); min-height: 200px";>
             </div>
 
             <!-- Post Contetnt -->
@@ -21,14 +21,29 @@
                 <p>{{ item.created_at }}</p>
             </div>
         </div>
+        {% else %}
+        <h3>Not found post</h3>
         {% endfor %}
         <!-- Pagination -->
         <nav>
             <ul class="pagination">
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="ti-angle-right"></i></a></li>
+                {% if currentPage > 1 and totalPage >1 %}
+                <li class="page-item"><a class="page-link" href="/?page=1"><i class="ti-angle-left"></i></a></li>
+                {% endif %}
+
+                {% for i in range(1, totalPage +1) %}
+                    {% if currentPage == i  %}
+                    <li class="page-item active"><a class="page-link" href="/?page={{i}}">{{ i }}</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="/?page={{i}}">{{ i }}</a></li>
+                    {% endif %}
+                    
+                {% endfor %}
+
+                {% if currentPage < totalPage and totalPage >1 %}
+                <li class="page-item"><a class="page-link" href="/?page={{totalPage}}"><i class="ti-angle-right"></i></a></li>
+
+                {% endif %}
             </ul>
         </nav>
 

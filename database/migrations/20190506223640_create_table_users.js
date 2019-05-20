@@ -6,12 +6,15 @@ exports.up = function(knex, Promise) {
       table.string('fullname', 255).notNullable();
       table.string('address',255);
       table.string('email',255).notNullable();
-      table.integer('id_role').unsigned();
+      table.integer('id_role').unsigned().defaultTo(1);
       table.string('username',255).notNullable();
       table.string('password',255).notNullable();
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());  
-      table.unique(['username', 'email'])
+    })
+    .alterTable('users', function(table) {
+      table.unique(['username']);
+      table.unique(['email']);
     })
     .table('users', function (table) {
       table.foreign('id_role').references('role.id').onUpdate('RESTRICT').onDelete('CASCADE');

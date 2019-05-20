@@ -11,7 +11,4 @@ exports.seed = function (knex, Promise) {
     .then(() => {
       return knex('users').del();
     })
-    // .then(() => {
-    //   return knex('role').del();
-    // });
 };

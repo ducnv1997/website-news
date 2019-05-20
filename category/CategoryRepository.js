@@ -24,6 +24,14 @@ class CategoryRepository {
     async deleteCategoryById(id) {
         return this.knex('category').where('id', '=', id).del();
     }
+
+    async checkNameCategory(name) {
+        let data = await this.knex('category').where('name', '=', name);
+        if(data.length){
+            return false;
+        }
+        return true;
+    }
 }
 
 module.exports = CategoryRepository;

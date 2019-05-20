@@ -10,7 +10,7 @@
     <div class="row tex">
         <div class="col-md-8 float left">
           <a href="/admin/addcategory" class="btn btn-primary"> Add category + </a>
-          <a href="" class="btn btn-primary">View all</a>
+          <h3 class="text-danger">{{ err }}</h3>
         </div>
       </div>
 <table class="table">
@@ -58,6 +58,7 @@
               }else{
                 alert('fail');
               }
+              alert(result);
               
 						}
 					});

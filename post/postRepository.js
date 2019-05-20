@@ -6,23 +6,30 @@ class PostRepository {
     }
 
     async getAllPost() {
-        let results = await this.knex.select('posts.*','category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).orderBy('posts.created_at', 'desc');
-        return results.map(result => new Post(result.id,result.title,result.name, result.description, result.avatar , result.view, result.created_at));
+        let results = await this.knex.select('posts.*', 'category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).orderBy('posts.created_at', 'desc');
+
+        return results.map(result => new Post(result.id, result.title, result.name, result.description, result.avatar, result.view, result.created_at));
     }
 
-    async getPostMostViewByCategory(idCate) {
-        return await this.knex.select('posts.*','category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).where('id_category','=',idCate).orderBy('posts.view', 'desc').limit(1);
+    async getAllPostByPage(limit, ofset) {
+        let results = await this.knex.select('posts.*', 'category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).orderBy('posts.created_at', 'desc').limit(limit).offset(ofset);
+
+        return results.map(result => new Post(result.id, result.title, result.name, result.description, result.avatar, result.view, result.created_at));
+    }
+
+    async getPostMostView() {
+        return await this.knex.select('posts.*','category.name').distinct('posts.id_category').from('posts').join('category', {'category.id': 'posts.id_category'}).groupBy('posts.id_category').orderBy('posts.view', 'desc');
     }
 
     async getDataPostById(id) {
-        return  await this.knex.select('posts.*','category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).where('posts.id','=',id);        
+        return await this.knex.select('posts.*', 'category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).where('posts.id', '=', id);
     }
 
-    async getDataPostByCategory(idCategory) {
-        return  await this.knex.select('posts.*','category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).where('posts.id_category','=',idCategory).orderBy('posts.created_at', 'desc'); 
+    async getDataPostByCategory(idCategory, limit, ofset) {
+        return await this.knex.select('posts.*', 'category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).where('posts.id_category', '=', idCategory).orderBy('posts.created_at', 'desc').limit(limit).offset(ofset);
     }
 
-    async increaseView(idPost,view) {
+    async increaseView(idPost, view) {
         view += 1;
         await this.knex('posts').where('id', '=', idPost).update({
             view: view,
@@ -32,15 +39,15 @@ class PostRepository {
     }
 
     async addPost(dataPost, id) {
-        let path = dataPost.file.path;
-        let newPath = path.replace("view","..");
+        let path = dataPost.file.path
+        let newPath = path.replace("view", "..");
         return await this.knex('posts').insert({
             title: dataPost.body.title,
-            id_category : dataPost.body.cattegory,
-            id_user     : id,
-            content     : dataPost.body.content,
-            description : dataPost.body.description,
-            avatar      : newPath
+            id_category: dataPost.body.cattegory,
+            id_user: id,
+            content: dataPost.body.content,
+            description: dataPost.body.description,
+            avatar: newPath
         });
     }
 
@@ -51,12 +58,30 @@ class PostRepository {
 
     async editPostById(id, dataPost) {
         return await this.knex('posts').where('id', '=', id).update({
-            title           : dataPost.title,
-            description     : dataPost.description,
-            content         : dataPost.content,
-            id_category     : dataPost.cattegory,
+            title: dataPost.title,
+            description: dataPost.description,
+            content: dataPost.content,
+            id_category: dataPost.cattegory,
             thisKeyIsSkipped: undefined
         })
-    } 
+    }
+
+    async searchPostByKeyword(keyword, limit, ofset) {
+        return await this.knex('posts').where('title', 'like', '%' + keyword + '%').limit(limit).offset(ofset);
+    }
+
+    async CountPostByKeyword(keyword) {
+        return await this.knex('posts').count('id').where('title', 'like', '%' + keyword + '%');
+    }
+
+
+    async countPost() {
+        return this.knex('posts').count('id');
+    }
+
+    async countPostByCategory(idCate) {
+        return this.knex('posts').count('id').where('id_category','=',idCate)
+    }
 }
+
 module.exports = PostRepository;

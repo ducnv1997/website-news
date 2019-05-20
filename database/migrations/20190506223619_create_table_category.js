@@ -6,8 +6,10 @@ exports.up = function(knex, Promise) {
         table.string('name', 255).collate('utf8_unicode_ci').notNullable();
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.fn.now()); 
-        table.unique('name');
     })
+    .alterTable('category', function(table) {
+        table.unique(['name']);
+      })
 };
 
 exports.down = function(knex, Promise) {

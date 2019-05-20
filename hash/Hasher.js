@@ -4,9 +4,7 @@ class Hasher {
         this.round  = round;
     }
     async hashPassword(value) {
-        this.hasher.hash(value,this.round,(err, res) => {
-            return res;
-        })
+        return await this.hasher.hash(value,this.round);
     }
     async checkPassword(value, valueHashed) {
         return await this.hasher.compare(value, valueHashed);

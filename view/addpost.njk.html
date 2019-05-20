@@ -24,7 +24,7 @@ Addd Post
                         <p> Categories : </p>
                         {% for item in categories %}
                         <div>
-                                <input type="radio" name="cattegory" id="cattegory" value="{{ item.id }}">
+                                <input type="radio" name="cattegory" id="cattegory" value="{{ item.id }}" checked="checked">
                                 <label for="cattegory">{{ item.name }}</label>
                         </div>
                         {% endfor %}

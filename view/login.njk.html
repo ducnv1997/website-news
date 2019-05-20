@@ -14,6 +14,13 @@
             <div class="panel-heading">
                 <h1>Form Login</h1>
             </div>
+            {% if checkEmpty %}
+            <h4 class="text-danger"> {{checkEmpty}} </h4>
+            {% elif notFoundUser %}
+            <h4 class="text-danger">{{ notFoundUser }}</h4>
+            {% endif %}
+
+
             <div class="panel-body">
                 <div>
                     <form action="/admin/handlelogin" method="post">

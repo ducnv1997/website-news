@@ -1,6 +1,6 @@
 const Router = require('koa-router');
-const router = new Router();
 const multer  =   require('koa-multer');
+
 const storage =   multer.diskStorage({
     destination: function (req, file, callback) {
       callback(null, './view/public/images');
@@ -15,6 +15,7 @@ const upload = multer({ storage : storage});
 
 
 
+
 const DashBoardControllers        = require('./controller/dashboard_controller');
 const LoginController             = require('./controller/login_controller');
 const CategoryController          = require('./controller/category_controller');
@@ -22,6 +23,12 @@ const PostController              = require('./controller/post_controller');
 const PostControllerFrontend      = require('./controller/post_controller_frontend');
 const CategoryControllerFrontend  = require('./controller/category_controller_frontend');
 const checkLogined                = require('./middleware/checkLoginedMiddleware');
+const LoginControllerFrontend     = require('./controller/login_controller_frontend');
+const RegisterController          = require('./controller/register_controller');
+const UserController              = require('./controller/user_controller');
+const CommentController           = require('./controller/comment_controller');
+
+const router = new Router();
 
 const dashboardController         = new DashBoardControllers();
 const loginController             = new LoginController();
@@ -29,6 +36,11 @@ const categoryController          = new CategoryController();
 const postController              = new PostController();
 const postControllerFrontend      = new PostControllerFrontend();
 const categoryControllerFrontend  = new CategoryControllerFrontend();
+const logincontrollerfrontend     = new LoginControllerFrontend();
+const registerController          = new RegisterController();
+const userController              = new UserController();
+const commentController           = new CommentController();
+
 
 
 router.get('/admin',loginController.loginView);
@@ -42,6 +54,12 @@ router.post('/admin/handleeditcategory',categoryController.handleEditCategory);
 router.get('/admin/addcategory',checkLogined,categoryController.addCategory);
 router.post('/admin/handleaddcategory',categoryController.handleAddCategory);
 router.post('/admin/deletecategory',categoryController.deleteCategory);
+
+router.get('/admin/manageruser',checkLogined,userController.index);
+router.post('/admin/appointuser',userController.appointUser);
+router.post('/admin/deleteuser',userController.deleleUser)
+
+
 
 router.get('/files',checkLogined,postController.getImages);
 router.post('/admin/uploadimages',upload.array('image',100), postController.uploadImages);
@@ -60,6 +78,15 @@ router.post('/admin/handleeditpost', postController.handleEditPost);
 router.get('/', postControllerFrontend.index);
 router.get('/contentpost', postControllerFrontend.contentPost);
 router.get('/category', categoryControllerFrontend.index);
+router.get('/search',postControllerFrontend.search);
+router.get('/login', logincontrollerfrontend.loginView);
+router.post('/handlelogin',logincontrollerfrontend.handleLogin);
+router.get('/logout', logincontrollerfrontend.logout);
+router.get('/register', registerController.registerNewUser);
+router.post('/handleregister', registerController.handleregister);
+router.post('/comment', commentController.addcomment);
+router.post('/deletecomment', commentController.deleteComment);
+router.post('/editcomment', commentController.editComment);
 
 module.exports = router;
 

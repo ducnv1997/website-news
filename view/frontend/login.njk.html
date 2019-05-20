@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Login kenh69</title>
+</head>
+<body class="">
+    <div class="col-md-6 col-md-offset-3 mt-5" style="margin: auto ;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1>Form Login</h1>
+            </div>
+            {% if checkEmpty %}
+            <h4 class="text-danger"> {{checkEmpty}} </h4>
+            {% elif notFoundUser %}
+            <h4 class="text-danger">{{ notFoundUser }}</h4>
+            {% endif %}
+
+
+            <div class="panel-body">
+                <div>
+                    <form action="/handlelogin" method="post">
+                        <div class="form-group ">
+                            <label for="username">username</label>
+                            <input type="text" class="form-control" name="username" id="username" placeholder="username" value=""/>   
+                        </div>
+                        <div class="form-group">
+                            <label for="password">password</label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="password" value=""/>
+
+                        </div>
+    
+                        <input type="submit" value="Login" class="btn btn-success btn-block"/>
+                    </form>
+                </div>
+                <a href="/register" class="float-right"> DON'T HAVE AN ACCOUNT? REGISTER NOW!  </a>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
