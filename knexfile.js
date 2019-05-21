@@ -5,7 +5,8 @@ module.exports[process.env.NODE_ENV]= {
         host: process.env.MYSQL_HOST || '127.0.0.1',
         user: process.env.MYSQL_USER || 'root',
         password: process.env.MYSQL_PASSWORD || 1,
-        database: process.env.MYSQL_DATABASE || 'webnews'
+        database: process.env.MYSQL_DATABASE || 'webnews',
+
     },
     pool: {
         min: 2,

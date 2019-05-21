@@ -1,0 +1,19 @@
+version: "3"
+services:
+    webnews:
+        build: .
+        ports:
+            - 5000:3000
+        env_file:
+            - .env
+        working_dir: /app
+        volumes:
+            - .:/app
+            - /app/node_modules
+        links:
+            - database
+            
+    database:
+        image: mysql
+        env_file:
+          - .env

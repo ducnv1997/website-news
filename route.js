@@ -60,7 +60,6 @@ router.post('/admin/appointuser',userController.appointUser);
 router.post('/admin/deleteuser',userController.deleleUser)
 
 
-
 router.get('/files',checkLogined,postController.getImages);
 router.post('/admin/uploadimages',upload.array('image',100), postController.uploadImages);
 router.post('/delete_file',postController.deleteImage);

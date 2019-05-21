@@ -9,6 +9,7 @@ class PostController {
         
     }
     async uploadImages(context) {
+        
         if(!context.req.files[0]){
             context.message = "Upload fail";
         }else{
@@ -16,6 +17,7 @@ class PostController {
         }
 
     }
+
     async deleteImage(context) {
         let path ="view/" + context.request.body.url_del
         context.image.deleteImage(path);
