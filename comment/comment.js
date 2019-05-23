@@ -1,8 +1,8 @@
 class Comment {
-    constructor(id, id_post, username, content, created_at, updated_at) {
+    constructor(id, id_post, fullname, content, created_at, updated_at) {
         this.id         = id;
         this.id_post    = id_post;
-        this.username    = username,
+        this.fullname    = fullname,
         this.content    = content,
         this.created_at = created_at,
         this.updated_at = updated_at
@@ -16,8 +16,8 @@ class Comment {
         return this.id_post;
     }
 
-    getUsername() {
-        return this.username;
+    getFullname() {
+        return this.fullname;
     }
 
     getContent() {

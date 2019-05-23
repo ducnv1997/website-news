@@ -1,14 +1,13 @@
 const Comment = require('./comment');
+
 class CommentRepository{
     constructor(knex) {
         this.knex = knex
     }
 
     async getAllCommentByPost(idPost) {
-        let results = await this.knex.select('comment.*', 'users.username').from('comment').join('users', {'users.id': 'comment.id_user'}).where('id_post','=',idPost).orderBy('comment.created_at', 'desc');  
-        
-        return results.map(result => new Comment(result.id, result.id_post, result.username, result.content, result.created_at, result.updated_at));
-        
+        let results = await this.knex.select('comment.*', 'users.fullname').from('comment').join('users', {'users.id': 'comment.id_user'}).where('id_post','=',idPost).orderBy('comment.created_at', 'desc');  
+        return results.map(result => new Comment(result.id, result.id_post, result.fullname, result.content, result.created_at, result.updated_at));        
     }
 
     async addComment(content, idUser, idPost){

@@ -21,8 +21,8 @@ class Authentication {
         this.session.logined = null;
     }
 
-    createSessionUserLogined(username) {
-        this.session.UserLogined = username;
+    createSessionUserLogined(user) {
+        this.session.UserLogined = user;
     }
 
     destroySessionUserLogined() {

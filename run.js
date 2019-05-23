@@ -1,4 +1,4 @@
-const router             = require('./route');
+const router            = require('./route');
 const koa               = require('koa');
 const knexFile          = require('./knexfile')
 const knex              = require('knex')(knexFile['development']);
@@ -10,8 +10,9 @@ const hashProvider      = require('./hash/hash.provider');
 const authProvider      = require('./auth/authentication.provider');
 const middleware        = require('./middleware/middleware.provider');
 const commentProvider   = require('./comment/comment.provider');
+const likeProvider      = require('./like/like.provider');
 
-const imageProvider    = require('./upload/image.Provider');
+const imageProvider     = require('./upload/image.Provider');
 const fs                = require('fs'); 
 const path              = require('path');
 const static            = require('koa-static');
@@ -41,6 +42,7 @@ app.use(authProvider());
 app.use(imageProvider(fs));
 app.use(middleware(validator));
 app.use(commentProvider(knex));
+app.use(likeProvider(knex));
 app.use(router.routes());
 app.listen(process.env.PORT, () => {
     console.log("server run in port " + process.env.PORT);

@@ -8,6 +8,11 @@ class UserController {
         context.response.body = await context.adminRepository.appointUser(context.request.body.id);
     }
 
+    async demotiontUser(context) {
+        context.response.body = await context.adminRepository.demotiontUser(context.request.body.id);
+
+    }
+
     async deleleUser(context) {
         context.response.body = await context.adminRepository.deleteUser(context.request.body.id);
     }

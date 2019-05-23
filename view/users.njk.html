@@ -6,7 +6,7 @@
 
 {% block content %}
 <h1>This is Page Manager User</h1>
-<div class="col-md-8 mx-auto mt-5">
+<div class="col-md-10 mx-auto mt-5">
 <table class="table">
   <thead>
       <tr>
@@ -16,7 +16,7 @@
           <th>Email</th>
           <th>Role</th>
           <th>Username</th>
-          <th colspan="3" width="3%" class="text-center">Action</th>
+          <th colspan="2" class="text-center">Action</th>
       </tr>
   </thead>
   <tbody>
@@ -28,13 +28,18 @@
         <td>{{ item.email }}</td>
         <td>{{ item.role }}</td>
         <td>{{ item.username }}</td>
-        <td>
+        <td with="5%">
         {% if item.role == 'user'%}
         <button class="btn btn-info btnappoint" id="{{ item.id }}">appoint is admin</button>
         {% endif %}
+        {% if item.role == 'admin'%}
+        <button class="btn btn-info demotiont" id="{{ item.id }}">demotiont is user</button>
+        {% endif %}
         </td>
         <td>
+         {% if item.role !== 'super admin'%}
           <button class="btn btn-danger btnDelete" id="{{ item.id }}">Delete</button>
+        {% endif %}
         </td>
       </tr>
       {% endfor %}
@@ -47,15 +52,15 @@
     $(function () {
         $('.btnDelete').click(function() {
             let click = $(this);
-            let idPost = click.attr( "id" );
+            let id = click.attr( "id" );
             $.ajax({
                     url: "/admin/deleteuser",
-                    data: { id:idPost },
+                    data: { id:id },
                     type: 'POST',
-                    success: function(result){
+                    success: function(result) {
                         if (result) {
                         alert("success");
-                        $('#row'+idPost).hide();
+                        $('#row'+id).hide();
                         }else{
                         alert('fail');
                         }
@@ -65,10 +70,10 @@
 
         $('.btnappoint').click(function() {
             let click = $(this);
-            let idPost = click.attr( "id" );
+            let id = click.attr( "id" );
             $.ajax({
                     url: "/admin/appointuser",
-                    data: { id:idPost },
+                    data: { id:id },
                     type: 'POST',
                     success: function(result){
                         if (result) {
@@ -81,6 +86,26 @@
                     }
             });
         });
-    })
+
+        $('.demotiont').click(function() {
+            let click = $(this);
+            let id = click.attr( "id" );
+            $.ajax({
+                    url: "/admin/demotiont",
+                    data: { id:id },
+                    type: 'POST',
+                    success: function(result){
+                        if (result) {
+                        alert("demotiont success");
+                        window.location.reload(true)
+                        }else{
+                        alert('fail');
+                        }
+                
+                    }
+            });
+        });
+})
 </script>
+
 {% endblock %}

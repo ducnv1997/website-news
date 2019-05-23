@@ -74,8 +74,8 @@
                             </div>
                             <!-- Login -->
                             
-                            {% if username %}
-                            <a href="/login" class="login-btn">Hi {{username}}</i></a>
+                            {% if user %}
+                            <a href="/login" class="login-btn">Hi {{user.fullname}}</i></a>
                             <a href="/logout" class="login-btn">Logout</i></a>                            
                             {% else %}
                             <a href="/login" class="login-btn"><i class="fa fa-user" aria-hidden="true"></i></a>

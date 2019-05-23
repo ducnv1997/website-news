@@ -11,7 +11,7 @@ class LoginController {
         let checkEmpty  = await context.validateFormMiddleware.checkEmptyDataForm([username, password]);        
         let user        = await context.authentication.checkAcc(username, password);
 
-        if(user && user.role === 'admin'){ 
+        if(user && (user.role === 'admin' || user.role === 'super admin')){ 
             context.authentication.createSessionLogined(user.id);
             return context.redirect('/admin/dashboard');
         }

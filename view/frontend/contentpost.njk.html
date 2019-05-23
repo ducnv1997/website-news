@@ -13,13 +13,20 @@
         </div> -->
         <div class="blog-content">
             <div class="post-meta">
-                <a href="#">{{post[0].created_at}}</a>
+                <p>{{post[0].created_at.toLocaleString()}}</p>
+                <!-- <a href="#">{{post[0].created_at.toLocaleString()}}</a> -->
             </div>
             <h2 class="post-title">{{ post[0].title }}</h2>
             <!-- Post Meta -->
             <div class="post-meta-2">
                     
                 <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> {{ views }}</a>
+
+                {% if liked.length %}
+                <i class="far fa-thumbs-up fa-lg like" id="{{user.id}}" idpost="{{post[0].id}}"  style="color: red"></i>
+                {% else %}
+                <i class="far fa-thumbs-up fa-lg like" id="{{user.id}}" idpost="{{post[0].id}}"></i>
+                {% endif %}
                 
             </div>
             <div>
@@ -28,8 +35,8 @@
             <div id="content">
                 {{ post[0].content | safe}}
             </div>
-            <!-- Like Dislike Share -->
-            <div class="fb-like" data-href="http://localhost:4444/contentpost?id=22" data-width="" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+
+            
 
             <!-- Post Author -->
             <div class="post-author d-flex align-items-center">
@@ -55,12 +62,15 @@
             <li class="single_comment_area" id="comment{{item.id}}">
                 <!-- Comment Content -->
                 <div class="comment-author">
-                        <h6>{{item.username}}</h6>
-                        <p>{{ item.created_at }}</p> 
-                        {% if item.username == username %} 
+                        <h6>{{item.fullname}}</h6>
+                        <p>{{ item.created_at.toLocaleString() }}</p> 
+                        {% if item.fullname == user.fullname %} 
                         <a href="#" class="float-right
                         deletecomment " id="{{item.id}}"><i class="fas fa-trash-alt "></i></a>
                         <a href="#" class="float-right mr-3 editcomment"  id="{{ item.id}}"><i class="fas fa-edit"></i></a>
+                        {% elseif user.role == 'admin' or 'super admin' %}
+                        <a href="#" class="float-right
+                        deletecomment " id="{{item.id}}"><i class="fas fa-trash-alt "></i></a>
                         {% endif %}
                 </div>
                 <div class="comment-content d-flex ml-5">
@@ -84,9 +94,9 @@
         <!-- Reply Form -->
         
 
-        {% if username %}
+        {% if user %}
         <div class="contact-form-area">
-            <form action="/comment?idpost={{post[0].id}}&iduser={{post[0].id_user}}" method="post">
+            <form action="/comment?idpost={{post[0].id}}" method="post">
                 <div class="row">
                     <div class="col-12">
                         <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message*" required></textarea>
@@ -141,10 +151,30 @@
                             }else{
                                 alert('fail');
                             }
-   
-                
                         }
                     });
+            });
+
+            $('.like').click(function() {
+            var idUser = $('.like'). attr("id");
+            var idPost = $('.like'). attr("idpost");
+                $.ajax({
+                    url: "/like",
+                    data:{  id      :idUser,
+                            idpost  :idPost 
+                        },
+                    type: 'POST',
+                    success: function(result){
+                        if (result == "not login") {
+                            alert('you need login to like');
+                        }else if (result == "like") {
+                            $('.like').css("color", "red");
+                        }else if(result == "unlike"){
+                            $('.like').css("color", "");
+                        }
+
+                    }
+                });
             });
         })
     </script>

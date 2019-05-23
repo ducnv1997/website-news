@@ -1,9 +1,10 @@
+const moment = require('moment')
 
 class PostControllerFrontend {
 
     async index(context) {
 
-        let limit           = 3;
+        let limit           = 5;
         let currentPage     = context.query.page ? context.query.page : 1;
         let offset          = await context.controllerMiddleware.calculateOffset(limit, currentPage);
         let totalPost       = await context.postRepository.countPost();
@@ -12,20 +13,26 @@ class PostControllerFrontend {
         let posts           = await context.postRepository.getAllPostByPage(limit,offset);
         let categories      = await context.categoryRepository.getAllCategory();
         let postsMostView   = await context.postRepository.getPostMostView();
+        let user            = context.session.UserLogined;
 
-        let username        = context.session.UserLogined;
-
-        context.render('frontend/index.njk.html', {posts, categories, postsMostView, totalPage, currentPage, username});
+        context.render('frontend/index.njk.html', {posts, categories, postsMostView, totalPage, currentPage, user});
     }
 
     async contentPost(context) {
+
+        let liked           = '';
         let post            = await context.postRepository.getDataPostById(context.query.id);
         let views           = await context.postRepository.increaseView(context.query.id, post[0].view);
         let categories      = await context.categoryRepository.getAllCategory();
         let postsMostView   = await context.postRepository.getPostMostView();
-        let username        = context.session.UserLogined;
+        let user            = context.session.UserLogined;
         let comments        = await context.commentRepository.getAllCommentByPost(context.query.id);
-        context.render('frontend/contentpost.njk.html', {post, categories, views, postsMostView, username, comments});
+
+        if(user) {
+             liked          = await context.likeRepository.checkLike(post[0].id, user.id);
+        }
+
+        context.render('frontend/contentpost.njk.html', {post, categories, views, postsMostView, user, comments, liked});
     }
 
     async search(context) {

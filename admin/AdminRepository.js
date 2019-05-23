@@ -17,9 +17,9 @@ class AdminRepository {
         return await result.map(result => new Admin(result.id,result.fullname, result.address, result.email, result.description, result.username, result.password));
     }
 
-    async checkEmailBeforeRegisterUser(email, username) {
-        return this.knex('users').where('email','=',email);
-    }
+    // async checkEmailBeforeRegisterUser(email) {
+    //     return this.knex('users').where('email','=',email);
+    // }
 
     async checkUsernameBeforeRegisterUser( username) {
         return this.knex('users').where('username','=',username);
@@ -35,9 +35,24 @@ class AdminRepository {
         })
     }
 
+    async registerUserWithFacebook(fullname, username, password){
+        return await this.knex('users').insert({
+            fullname    : fullname,
+            username    : username,
+            password    : password
+        })
+    }
+
     async appointUser(id) {
         return await this.knex('users').where('id', '=', id).update({
             id_role: 2,
+            thisKeyIsSkipped: undefined
+        })
+    }
+
+    async demotiontUser(id) {
+        return await this.knex('users').where('id', '=', id).update({
+            id_role: 1,
             thisKeyIsSkipped: undefined
         })
     }

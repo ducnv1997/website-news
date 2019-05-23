@@ -9,7 +9,6 @@ class LoginControllerFrontend {
         let password    = await context.validateFormMiddleware.sanitizerData(context.request.body.password);
         let checkEmpty  = await context.validateFormMiddleware.checkEmptyDataForm([username, password]);        
         let user        = await context.authentication.checkAcc(username,password);
-        
         if(checkEmpty){
             context.alert(checkEmpty)
             return context.redirect('/login');
@@ -18,11 +17,12 @@ class LoginControllerFrontend {
             context.alert("username or password is incorrect");
             return context.redirect('/login');
         }else{
-            context.authentication.createSessionUserLogined(user.username);
+            context.authentication.createSessionUserLogined(user);
             return context.redirect('/');
         }
         
     }
+
     
     async logout(context) {
         context.authentication.destroySessionUserLogined();

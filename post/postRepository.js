@@ -18,7 +18,12 @@ class PostRepository {
     }
 
     async getPostMostView() {
-        return await this.knex.select('posts.*','category.name').distinct('posts.id_category').from('posts').join('category', {'category.id': 'posts.id_category'}).groupBy('posts.id_category').orderBy('posts.view', 'desc');
+        return await this.knex.select('posts.*', 'category.name')
+            .from('posts').join('category', {'category.id': 'posts.id_category'})
+            .whereIn('view',
+                this.knex.max('view').from('posts').groupBy('id_category')
+            )
+            .orderBy('view', 'desc');
     }
 
     async getDataPostById(id) {
