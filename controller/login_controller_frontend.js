@@ -5,22 +5,18 @@ class LoginControllerFrontend {
     }
 
     async handleLogin(context) {
-        let username    = await context.validateFormMiddleware.sanitizerData(context.request.body.username);
-        let password    = await context.validateFormMiddleware.sanitizerData(context.request.body.password);
-        let checkEmpty  = await context.validateFormMiddleware.checkEmptyDataForm([username, password]);        
-        let user        = await context.authentication.checkAcc(username,password);
-        if(checkEmpty){
-            context.alert(checkEmpty)
-            return context.redirect('/login');
-
-        }else if(!user) { 
+       
+        let user  = await context.authentication.checkAcc(context.username,context.password);
+        if(!user) { 
             context.alert("username or password is incorrect");
             return context.redirect('/login');
-        }else{
-            context.authentication.createSessionUserLogined(user);
-            return context.redirect('/');
         }
-        
+
+        context.authentication.createSessionUserLogined(user);
+        context.username = null;
+        context.password = null;
+        return context.redirect('/');
+
     }
 
     

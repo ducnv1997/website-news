@@ -30,18 +30,17 @@ class PostController {
     }
 
     async handleAddPost(context) {
-        let bodyRequest = context.req.body;
-        if (context.req.file) {
-            let checkEmpty  = await context.validateFormMiddleware.checkEmptyDataForm([bodyRequest.title, bodyRequest.cattegory, bodyRequest.description, bodyRequest.content, context.req.file.path]);
-
-            if(checkEmpty){
-                context.alert(checkEmpty);
-            }else{
-                await context.postRepository.addPost(context.req, context.session.logined);
-            }
-        }else{
-             context.alert("you can choice images avater post")
+        try {
+            await context.postRepository.addPost(context.title, context.idCategory, context.session.logined.id, context.content, context.description, context.pathAvatar);
+        } catch (error) {
+             context.alert('An error occurred. Please try again later');
         }
+
+        context.title       = null;
+        context.idCategory  = null;
+        context.content     = null;
+        context.description = null;
+        context.pathAvatar  = null;
         return context.redirect('/admin/post');
 
     }
@@ -58,8 +57,14 @@ class PostController {
     }
 
     async handleEditPost(context) {
-        await context.postRepository.editPostById(context.session.idpost, context.request.body)
-        context.redirect('/admin/post');
+        await context.postRepository.editPostById(context.session.idpost, context.title, context.idCategory, context.content, context.description);
+
+        context.title           = null;
+        context.idCategory      = null;
+        context.content         = null;
+        context.description     = null;
+        context.session.idpost  = null;
+        return context.redirect('/admin/post');
     }
 }
 module.exports = PostController;

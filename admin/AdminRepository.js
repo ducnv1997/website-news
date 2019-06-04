@@ -1,8 +1,8 @@
 const Admin = require('./Admin');
-const alert = require('alert-node')
 
 
 class AdminRepository {
+
     constructor(knex) {
         this.knex = knex
     }
@@ -17,11 +17,7 @@ class AdminRepository {
         return await result.map(result => new Admin(result.id,result.fullname, result.address, result.email, result.description, result.username, result.password));
     }
 
-    // async checkEmailBeforeRegisterUser(email) {
-    //     return this.knex('users').where('email','=',email);
-    // }
-
-    async checkUsernameBeforeRegisterUser( username) {
+    async checkUsernameBeforeRegisterUser(username) {
         return this.knex('users').where('username','=',username);
     }
 

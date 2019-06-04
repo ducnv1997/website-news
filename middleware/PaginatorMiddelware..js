@@ -1,4 +1,4 @@
-class ControllerMiddelware {
+class PaginatorMiddelware {
 
      calculateTotalPage(limit ,totalPost) {
         let totalPage = Math.ceil(totalPost[0]["count(`id`)"] / limit);
@@ -10,4 +10,4 @@ class ControllerMiddelware {
     }
 
 }
- module.exports = ControllerMiddelware;
+ module.exports = PaginatorMiddelware;

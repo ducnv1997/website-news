@@ -124,18 +124,17 @@
                         let contentComment = $('#textarea'+idComment).val();
                         $.ajax({
                                 url: "/editcomment",
-                                data: { content : contentComment,
+                                data: { message : contentComment,
                                         id      :idComment
                                 },
                             type: 'POST',
                                 success: function(result){
-                                    $('#contentcomment'+idComment).html('<p>'+ result.content +'</p>');
+                                    $('#contentcomment'+idComment).html('<p>'+ result +'</p>');
                                 }
                         });
                     }
                     
                 })
-
             });
 
             $('.deletecomment').click(function() {

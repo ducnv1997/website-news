@@ -1,7 +1,11 @@
-const Router = require('koa-router');
-const multer  =   require('koa-multer');
+const Router      = require('koa-router');
+const validator   = require('validator');
+const xss         = require('xss');
+const alert       = require('alert-node');
 
-const storage =   multer.diskStorage({
+const multer      =   require('koa-multer');
+
+const storage     =   multer.diskStorage({
     destination: function (req, file, callback) {
       callback(null, './view/public/images');
     },
@@ -27,10 +31,14 @@ const RegisterController          = require('./controller/register_controller');
 const UserController              = require('./controller/user_controller');
 const CommentController           = require('./controller/comment_controller');
 const LikeController              = require('./controller/like_controller');
-const FacebookController          = require('./controller/facebook_controller')
+const FacebookController          = require('./controller/facebook_controller');
+const NotFoundController          = require('./controller/notFound_controller');
+
+const ValidatorFormMiddleware     = require('./middleware/validatorFormMiddleware');
 
 const router = new Router();
 
+const validatorFormMiddleware     = new ValidatorFormMiddleware();
 const dashboardController         = new DashBoardControllers();
 const loginController             = new LoginController();
 const categoryController          = new CategoryController();
@@ -43,29 +51,26 @@ const userController              = new UserController();
 const commentController           = new CommentController();
 const likeController              = new LikeController();
 const facebookController          = new FacebookController(); 
+const notFoundController          = new NotFoundController();
 
 
 
 router.get('/admin',loginController.loginView);
 router.get('/admin/dashboard',checkLogined,dashboardController.index);
-router.post('/admin/handlelogin',loginController.handleLogin);
+router.post('/admin/handlelogin',validatorFormMiddleware.validateFormLogin,loginController.handleLogin);
 router.post('/logout',dashboardController.logout);
-
-
 
 router.get('/admin/category',checkLogined,categoryController.index);
 router.get('/admin/editcategory',checkLogined,categoryController.editCategory);
-router.post('/admin/handleeditcategory',categoryController.handleEditCategory);
+router.post('/admin/handleeditcategory',validatorFormMiddleware.validateFormCategoryName,categoryController.handleEditCategory);
 router.get('/admin/addcategory',checkLogined,categoryController.addCategory);
-router.post('/admin/handleaddcategory',categoryController.handleAddCategory);
+router.post('/admin/handleaddcategory',validatorFormMiddleware.validateFormCategoryName,categoryController.handleAddCategory);
 router.post('/admin/deletecategory',categoryController.deleteCategory);
 
 router.get('/admin/manageruser',checkLogined,userController.index);
 router.post('/admin/appointuser',userController.appointUser);
 router.post('/admin/deleteuser',userController.deleleUser);
-router.post('/admin/demotiont',userController.demotiontUser)
-
-
+router.post('/admin/demotiont',userController.demotiontUser);
 
 router.get('/files',checkLogined,postController.getImages);
 router.post('/admin/uploadimages',upload.array('image',100), postController.uploadImages);
@@ -73,10 +78,10 @@ router.post('/delete_file',postController.deleteImage);
 
 router.get('/admin/post',checkLogined,postController.index);
 router.get('/addpost',checkLogined,postController.addPost);
-router.post('/admin/handleaddpost',upload.single('avatar'), postController.handleAddPost);
+router.post('/admin/handleaddpost',upload.single('avatar'),validatorFormMiddleware.validateFormPost, postController.handleAddPost);
 router.post('/admin/deletepost',postController.deletePost);
 router.get('/admin/editpost',checkLogined,postController.editPost);
-router.post('/admin/handleeditpost', postController.handleEditPost);
+router.post('/admin/handleeditpost',validatorFormMiddleware.validateFormEditPost,postController.handleEditPost);
 
 
 // Router fronend**********************************************************
@@ -84,22 +89,23 @@ router.post('/admin/handleeditpost', postController.handleEditPost);
 router.get('/', postControllerFrontend.index);
 router.get('/contentpost', postControllerFrontend.contentPost);
 router.get('/category', categoryControllerFrontend.index);
-router.get('/search',postControllerFrontend.search);
+router.get('/search',validatorFormMiddleware.validateFormSearch,postControllerFrontend.search);
 
 router.get('/login', logincontrollerfrontend.loginView);
-router.post('/handlelogin',logincontrollerfrontend.handleLogin);
+router.post('/handlelogin',validatorFormMiddleware.validateFormLogin,logincontrollerfrontend.handleLogin);
 router.get('/logout', logincontrollerfrontend.logout);
 router.post('/loginfb',facebookController.loginFB);
 
 
 router.get('/register', registerController.registerNewUser);
-router.post('/handleregister', registerController.handleregister);
-router.post('/comment', commentController.addcomment);
+router.post('/handleregister', validatorFormMiddleware.validateFormRegister,registerController.handleregister);
+router.post('/comment', validatorFormMiddleware.validateFormComment, commentController.addcomment);
 router.post('/deletecomment', commentController.deleteComment);
-router.post('/editcomment', commentController.editComment);
-
+router.post('/editcomment',validatorFormMiddleware.validateFormComment, commentController.editComment);
 
 router.post('/like', likeController.handleLike);
+
+router.get('/notfound',notFoundController.index);
 
 
 

@@ -20,7 +20,6 @@ const session           = require('koa-session');
 const koaBodyParser     = require('koa-bodyparser');
 const validator         = require('validator');
 
-
 const app           = new koa();
 const staticPath    = '/view';
 

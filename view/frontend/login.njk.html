@@ -33,18 +33,21 @@
                             <input type="password" class="form-control" name="password" id="password" placeholder="password" value=""/>
 
                         </div>
+                        <div class="text-center col-md-4 mx-auto">
+                          <input type="submit" value="Login" class="btn btn-success btn-block"/>
+
+                        </div>
     
-                        <input type="submit" value="Login" class="btn btn-success btn-block"/>
                     </form>
                     
                 </div>
-                <div class="float-left">
-                  
-                  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-                   </fb:login-button>
-                   
+                <div class="text-center my-2">
+                  <h5>or</h5>
                 </div>
-                <div id="status">
+                <div class=" text-center">
+                  
+                   <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"  onlogin="checkLoginState()"></div>
+               
                 </div>
                 <a href="/register" class="float-right"> DON'T HAVE AN ACCOUNT? REGISTER NOW!  </a>
             </div>

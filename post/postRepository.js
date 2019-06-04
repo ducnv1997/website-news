@@ -43,15 +43,14 @@ class PostRepository {
         return view;
     }
 
-    async addPost(dataPost, id) {
-        let path = dataPost.file.path
-        let newPath = path.replace("view", "..");
+    async addPost(title, idCategory, idUser, content, description, avatarPatth) {
+        let newPath = avatarPatth.replace("view", "..");
         return await this.knex('posts').insert({
-            title: dataPost.body.title,
-            id_category: dataPost.body.cattegory,
-            id_user: id,
-            content: dataPost.body.content,
-            description: dataPost.body.description,
+            title: title,
+            id_category: idCategory,
+            id_user: idUser,
+            content: content,
+            description: description,
             avatar: newPath
         });
     }
@@ -61,12 +60,12 @@ class PostRepository {
 
     }
 
-    async editPostById(id, dataPost) {
+    async editPostById(id, title, idCategory, content, description,  ) {
         return await this.knex('posts').where('id', '=', id).update({
-            title: dataPost.title,
-            description: dataPost.description,
-            content: dataPost.content,
-            id_category: dataPost.cattegory,
+            title: title,
+            description: description,
+            content: content,
+            id_category:idCategory,
             thisKeyIsSkipped: undefined
         })
     }

@@ -26,11 +26,8 @@ class CategoryRepository {
     }
 
     async checkNameCategory(name) {
-        let data = await this.knex('category').where('name', '=', name);
-        if(data.length){
-            return false;
-        }
-        return true;
+        return await this.knex('category').where('name', '=', name);
+       
     }
 }
 

@@ -4,7 +4,6 @@ class CategoryController {
     async index(context) {
         let categorys = await context.categoryRepository.getAllCategory();
         context.render('categoryadmin.njk.html', {categorys});
-
     }
 
     async addCategory(context) {
@@ -12,31 +11,36 @@ class CategoryController {
     }
 
     async handleAddCategory(context) {
+        let category = await context.categoryRepository.checkNameCategory(context.nameCategory);
         
-        let nameCategory = await context.validateFormMiddleware.sanitizerData(context.request.body.nameCategory);
-        let checkEmpty  = await context.validateFormMiddleware.checkEmptyDataForm([context.request.body.nameCategory]);
-        if(checkEmpty){
-            context.alert(checkEmpty);
-        }else if(await context.categoryRepository.checkNameCategory(nameCategory)){
-            await context.categoryRepository.addCategory(nameCategory);
-        }else{
+       if(category.length) {
             context.alert('Category name used');
+            return context.redirect('back');
         }
+        await context.categoryRepository.addCategory(context.nameCategory);
+        context.nameCategory = null;
         context.redirect('/admin/category');
     }
     
     async editCategory(context) {
-        let name = await context.validateFormMiddleware.sanitizerData(context.query.name);
+        let name =context.query.name;
         context.render('editcategory.njk.html',{ name });
         context.session.idcate = context.query.id;
     }
 
     async handleEditCategory(context) {
-        let nameCate =  await context.validateFormMiddleware.sanitizerData(context.request.body.nameCategory);
+        let category = await context.categoryRepository.checkNameCategory(context.nameCategory);
+        if(category.length) {
+            context.alert('Category name used');
+            return context.redirect('back');
+        }
+
         if(context.session.idcate) {
-            context.categoryRepository.editCategoryById(context.session.idcate, nameCate);
-            context.session.idcate = null;
-        } 
+            context.categoryRepository.editCategoryById(context.session.idcate, context.nameCategory);
+        }
+        
+        context.session.idcate  = null;
+        context.nameCategory    = null;
         context.redirect('/admin/category');
     }
 
