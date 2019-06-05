@@ -56,6 +56,13 @@ class AdminRepository {
     async deleteUser(id) {
         return this.knex('users').where('id', '=', id).del();
     }
+
+    async changePassword(idUser, newPassword){
+        return await this.knex('users').where('id', '=', idUser).update({
+            password: newPassword,
+            thisKeyIsSkipped: undefined
+        })
+    }
 }
 
 module.exports = AdminRepository;

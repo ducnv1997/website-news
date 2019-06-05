@@ -18,7 +18,6 @@ const path              = require('path');
 const static            = require('koa-static');
 const session           = require('koa-session');
 const koaBodyParser     = require('koa-bodyparser');
-const validator         = require('validator');
 
 const app           = new koa();
 const staticPath    = '/view';
@@ -39,7 +38,7 @@ app.use(cateProvider(knex));
 app.use(postProvider(knex));
 app.use(authProvider());
 app.use(imageProvider(fs));
-app.use(middleware(validator));
+app.use(middleware());
 app.use(commentProvider(knex));
 app.use(likeProvider(knex));
 app.use(router.routes());

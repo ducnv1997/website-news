@@ -149,6 +149,27 @@ class ValidatorFormMiddleware {
         
     }
 
+    async validateFormChangePassword(context, next) {
+        let newPassword         = validator.escape(context.request.body.newpassword);
+        let confirmPawssword    = validator.escape(context.request.body.confirmpassword);
+        newPassword             = xss(newPassword);
+        confirmPawssword        = xss(confirmPawssword);
+        if (validator.isEmpty(newPassword) || validator.isEmpty(confirmPawssword)) {
+            context.alert('form is empty');
+            return context.redirect('back');
+        }
+
+        if (newPassword !== confirmPawssword) {
+            context.alert('The password does not match the confirmation password');
+            return context.redirect('back');
+        }
+
+        context.newPassword = newPassword;
+        await next();
+
+
+    }
+
 }
 
 module.exports = ValidatorFormMiddleware;

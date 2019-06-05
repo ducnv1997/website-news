@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
       table.string('address',255).collate('utf8_unicode_ci');
       table.string('email',255).notNullable();
       table.integer('id_role').unsigned().defaultTo(1);
+      table.string('avatar', 255);
       table.string('username',255).notNullable();
       table.string('password',255).notNullable();
       table.timestamp('created_at').defaultTo(knex.fn.now());
