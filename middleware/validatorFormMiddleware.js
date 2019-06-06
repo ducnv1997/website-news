@@ -93,7 +93,8 @@ class ValidatorFormMiddleware {
         context.description = description;
         context.idCategory  = idCategory;
         context.content     = content;
-        context.pathAvatar  = context.req.file.path
+        context.pathAvatar  = (context.req.file.path).replace("view/", "");
+        // let newPath = avatarPatth.replace("view", "..");
         await next();
     }
 
@@ -163,11 +164,38 @@ class ValidatorFormMiddleware {
             context.alert('The password does not match the confirmation password');
             return context.redirect('back');
         }
-
-        context.newPassword = newPassword;
+        context.newPassword =  await context.hasher.hashPassword(newPassword);;
         await next();
+    }
 
+    async validateFormEditInfo(context, next) {
+        let fullname = context.req.body.fullname;
+        let address  = context.req.body.address;
+        let email    = context.req.body.email;
 
+        fullname    = validator.trim(fullname);
+        address     = validator.trim(address);
+        email       = validator.trim(email);
+
+        fullname    = validator.escape(fullname);
+        address     = validator.escape(address);
+        email       = validator.escape(email);
+
+        fullname    = xss(fullname);
+        address     = xss(address);
+        email       = xss(email);
+        if(email && !validator.isEmail(email)){
+            context.alert('email is not valid');
+            return context.redirect('back');
+        }
+       
+        context.fullname    = fullname;
+        context.address     = address;
+        context.email       = email; 
+        if (context.req.file) {
+            context.avatar = (context.req.file.path).replace("view/", "");
+        }
+        await next();
     }
 
 }

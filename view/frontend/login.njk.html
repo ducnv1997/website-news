@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>Login kenh69</title>
-</head>
+{% extends "frontend/base.njk.html" %}
+{% block title %}
+Login kenh69
+{% endblock %}
+{% block body %}
 <body class="">
     <div class="col-md-6 col-md-offset-3 mt-5" style="margin: auto ;">
         <div class="panel panel-default">
@@ -56,7 +51,9 @@
         </div>
     </div>
 </body>
+{% endblock %}
 
+{% block footer %}
 <div id="fb-root"></div>
 <script type="text/javascript" src="../public/js/jquery/jquery.min.js"></script>
 <script>
@@ -103,8 +100,9 @@
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me',{ fields: 'id,first_name,last_name,email,picture'},
+    FB.api('/me',{ fields: 'id,first_name,last_name,email,picture.width(200).height(200)'},
     function(response) {
+      console.log(response)
       $.ajax({
         url: "/loginfb",
         data: {data: response},
@@ -117,7 +115,5 @@
     });
   }
 </script>
-
-</div>
-</html>
+{% endblock %}
 

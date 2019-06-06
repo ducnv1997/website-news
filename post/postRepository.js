@@ -44,14 +44,13 @@ class PostRepository {
     }
 
     async addPost(title, idCategory, idUser, content, description, avatarPatth) {
-        let newPath = avatarPatth.replace("view", "..");
         return await this.knex('posts').insert({
             title: title,
             id_category: idCategory,
             id_user: idUser,
             content: content,
             description: description,
-            avatar: newPath
+            avatar: avatarPatth
         });
     }
 

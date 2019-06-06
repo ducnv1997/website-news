@@ -1,12 +1,12 @@
 class FacebookController {
 
     async loginFB(context) {
-        let dataUser = context.request.body.data;
 
-        let checkUsername   = await context.adminRepository.checkUsernameBeforeRegisterUser(dataUser.id);
+        let dataUser = context.request.body.data;
+        let checkUsername   = await context.userRepository.checkUsernameBeforeRegisterUser(dataUser.id);
 
         if (!checkUsername.length) {
-            await context.adminRepository.registerUserWithFacebook(dataUser.first_name +' ' + dataUser.last_name, dataUser.id, dataUser.id);
+            await context.userRepository.registerUserWithFacebook(dataUser.first_name +' ' + dataUser.last_name, dataUser.id, dataUser.id, dataUser.picture.data.url);
 
         }
         

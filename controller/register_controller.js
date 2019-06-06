@@ -8,12 +8,12 @@ class RegisterController{
 
     async handleregister(context) {
 
-        let checkUsername   = await context.adminRepository.checkUsernameBeforeRegisterUser(context.username);
+        let checkUsername   = await context.userRepository.checkUsernameBeforeRegisterUser(context.username);
         
         if (checkUsername.length) {
             context.alert("username đã được sủ dụng");
         }else {
-            await context.adminRepository.registerUser(context.fullname, context.address, context.email, context.username, context.password);
+            await context.userRepository.registerUser(context.fullname, context.address, context.email, context.username, context.password);
             context.session.success = "Register success";
         }
 

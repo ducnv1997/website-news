@@ -1,14 +1,5 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>404</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
-</head>
+{% extends "frontend/base.njk.html" %}
+{% block body %}
 <body>
     <div class="d-flex justify-content-center align-items-center" id="main">
         <h1 class="mr-3 pr-3 align-top border-right inline-block align-content-center">404</h1>
@@ -21,6 +12,4 @@
          <a href="/">Back to home page</a>
     </div>
 </body>
-
-<!------ Include the above in your HEAD tag ---------->
-</html>
+{% endblock %}

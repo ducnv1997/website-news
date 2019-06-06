@@ -1,5 +1,5 @@
 class User {
-    constructor(id, fullname, address, email, role, username, password) {
+    constructor(id, fullname, address, email, role, username, password, avatar, created_at) {
         this.id             = id;
         this.fullname       = fullname;
         this.address        = address;
@@ -7,6 +7,8 @@ class User {
         this.role           = role;
         this.username       = username;
         this.password       = password;
+        this.avatar         = avatar;
+        this.created_at     = created_at;
     }
 
     getId() {
@@ -30,6 +32,12 @@ class User {
     }
     getPassword() {
         return this.password;
+    }
+    getAvatar() {
+        return this.avatar;
+    }
+    getCreated_at() {
+        return this.created_at;
     }
 }
 module.exports = User;

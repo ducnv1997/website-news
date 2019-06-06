@@ -1,4 +1,26 @@
 class InfoUserController {
+    async infoUser(context) {
+        let user = await context.userRepository.getUserByUsername(context.session.UserLogined.username);
+        context.render('frontend/infouser.njk.html',{user});
+
+    }
+
+    async handleeditinfo(context) {
+        try {
+            await context.userRepository.changeInfo(context.session.UserLogined.id, context.fullname, context.address, context.email, context.avatar);
+
+            let user = await context.userRepository.getUserByUsername(context.session.UserLogined.username);
+            
+            context.authentication.createSessionUserLogined(user[0])
+            context.alert('success');
+        } catch (error) {
+            context.alert('An error occurred. Please try again later');
+        }
+        context.redirect('back');
+        
+
+    }
+
     async changePassword(context) {
         let statusChangedPassword = context.session.changePassword;
         context.render('frontend/changepassword.njk.html', {statusChangedPassword});
@@ -7,7 +29,7 @@ class InfoUserController {
 
     async handleChangePassword(context) {
         try {
-            await context.adminRepository.changePassword(context.session.UserLogined.id, context.newPassword);
+            await context.userRepository.changePassword(context.session.UserLogined.id, context.newPassword);
             context.redirect('back');
             context.session.changePassword = "Change success";
         } catch (error) {
@@ -15,7 +37,6 @@ class InfoUserController {
             context.session.changePassword = "Change fail";
         }
        
-
     }
 }
 

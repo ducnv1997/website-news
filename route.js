@@ -1,7 +1,4 @@
 const Router      = require('koa-router');
-const validator   = require('validator');
-const xss         = require('xss');
-const alert       = require('alert-node');
 
 const multer      =   require('koa-multer');
 
@@ -110,10 +107,8 @@ router.post('/like', likeController.handleLike);
 router.get('/notfound',notFoundController.index);
 router.get('/change-password',loginedMiddleware.checkUserLogined,infoUSerController.changePassword);
 router.post('/handle-change-password',loginedMiddleware.checkUserLogined,validatorFormMiddleware.validateFormChangePassword,infoUSerController.handleChangePassword);
-
-
-
-
+router.get('/accountdetails', loginedMiddleware.checkUserLogined,infoUSerController.infoUser)
+router.post('/handleeditinfo',loginedMiddleware.checkUserLogined,upload.single('avatar'),validatorFormMiddleware.validateFormEditInfo,infoUSerController.handleeditinfo)
 
 module.exports = router;
 

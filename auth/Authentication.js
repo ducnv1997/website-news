@@ -1,16 +1,16 @@
 class Authentication {
-    constructor(adminRepository, bcrypt, session) {
-        this.adminRepository    = adminRepository;
+    constructor(userRepository, bcrypt, session) {
+        this.userRepository    = userRepository;
         this.bcrypt             = bcrypt;
         this.session            = session;
     }   
 
     async checkAcc(username, password) {
-        let User = await this.adminRepository.getUser(username);
-         if( !User[0] ||  !await this.bcrypt.checkPassword(password,User[0].password) && User[0].role == "admin" ) {
-            return false;
+        let user = await this.userRepository.getUserByUsername(username);
+        if( user.length && await this.bcrypt.checkPassword(password,user[0].password) ) {
+            return user[0];
         }else{
-            return User[0];
+            return false;
         }
     }
 

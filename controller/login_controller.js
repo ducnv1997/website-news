@@ -8,7 +8,6 @@ class LoginController {
     async handleLogin(context, next) {
 
         let user  = await context.authentication.checkAcc(context.username, context.password);
-
         if(user && (user.role === 'admin' || user.role === 'super admin')){ 
             context.authentication.createSessionLogined(user);
             context.username = null;

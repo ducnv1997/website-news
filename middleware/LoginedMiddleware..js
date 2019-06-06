@@ -13,7 +13,6 @@ class LoginedMiddleware {
         }
         await next();
     }
-
 }
 
 module.exports = LoginedMiddleware;

@@ -1,7 +1,7 @@
-const Admin = require('./Admin');
+const User = require('./User');
 
 
-class AdminRepository {
+class UserRepository {
 
     constructor(knex) {
         this.knex = knex
@@ -9,12 +9,12 @@ class AdminRepository {
 
     async getAllUser() {
         let results = await this.knex.select('users.*','role.description').from('users').join('role', {'role.id': 'users.id_role'});
-        return results.map(result => new Admin(result.id,result.fullname, result.address, result.email, result.description, result.username, result.password));
+        return results.map(result => new User(result.id,result.fullname, result.address, result.email, result.description, result.username, result.password, result.avatar, result.created_at));
     }
 
-    async getUser(username) {
+    async getUserByUsername(username) {
         let result = await this.knex.select('users.*','role.description').from('users').join('role', {'role.id': 'users.id_role'}).where('username','=',username);
-        return await result.map(result => new Admin(result.id,result.fullname, result.address, result.email, result.description, result.username, result.password));
+        return result.map(result => new User(result.id,result.fullname, result.address, result.email, result.description, result.username, result.password, result.avatar, result.created_at));
     }
 
     async checkUsernameBeforeRegisterUser(username) {
@@ -31,11 +31,12 @@ class AdminRepository {
         })
     }
 
-    async registerUserWithFacebook(fullname, username, password){
+    async registerUserWithFacebook(fullname, username, password, avatar) {
         return await this.knex('users').insert({
             fullname    : fullname,
             username    : username,
-            password    : password
+            password    : password,
+            avatar      : avatar
         })
     }
 
@@ -63,6 +64,16 @@ class AdminRepository {
             thisKeyIsSkipped: undefined
         })
     }
+
+    async changeInfo(idUser, fullname, address, email, avatar) {
+        return await this.knex('users').where('id', '=', idUser).update({
+            fullname: fullname,
+            address : address,
+            email   : email,
+            avatar  : avatar,
+            thisKeyIsSkipped: undefined
+        })
+    }
 }
 
-module.exports = AdminRepository;
+module.exports = UserRepository;

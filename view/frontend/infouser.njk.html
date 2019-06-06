@@ -1,0 +1,58 @@
+{% extends "frontend/base.njk.html" %}
+{% block title %}
+info user
+{% endblock %}
+{% block body %}
+<div class="container">
+  <h1>Edit Profile</h1>
+    <hr>
+  <div class="row flex-column">
+    <!-- left column -->
+  <form action="/handleeditinfo" method="POST" enctype="multipart/form-data">
+
+    <div class="col-md-3 float-left">
+      <div class="text-center form-group">
+          <img src="{{user[0].avatar}}" class="avatar img-circle" alt="avatar">
+        <h6>Upload a different photo...</h6>
+        
+        <input type="file" class="form-control" name="avatar">
+      </div>
+    </div>
+    
+    <!-- edit form column -->
+    <div class="col-md-9 personal-info float-left">
+      <h3>Personal info</h3>
+
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Full name:</label>
+          <div class="col-lg-8">
+            <input class="form-control" type="text" value="{{user[0].fullname}}" name="fullname">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Address:</label>
+          <div class="col-lg-8">
+            <input class="form-control" type="text" value="{{user[0].address}}" name="address">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Email:</label>
+          <div class="col-lg-8">
+            <input class="form-control" type="email" value="{{user[0].email}}" name="email">
+          </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-8 control-label"><i class="far fa-clock"></i> Date created: {{user[0].created_at.toLocaleString()}}</label>
+          </div>
+        <div class="form-group">
+          <div class="col-md-8">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <input type="reset" class="btn btn-default" value="Reset">
+            <a href="/" class="float-right">Home</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
