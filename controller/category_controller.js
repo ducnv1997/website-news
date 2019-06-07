@@ -3,11 +3,14 @@ class CategoryController {
 
     async index(context) {
         let categorys = await context.categoryRepository.getAllCategory();
-        context.render('categoryadmin.njk.html', {categorys});
+        let user      = context.session.logined
+        context.render('admin/categoryadmin.njk.html', {categorys, user});
     }
 
     async addCategory(context) {
-        context.render('addcategory.njk.html');
+        let user      = context.session.logined
+
+        context.render('admin/addcategory.njk.html',{user});
     }
 
     async handleAddCategory(context) {
@@ -23,8 +26,10 @@ class CategoryController {
     }
     
     async editCategory(context) {
-        let name =context.query.name;
-        context.render('editcategory.njk.html',{ name });
+        let name        =context.query.name;
+        let user        = context.session.logined
+
+        context.render('admin/editcategory.njk.html',{ name , user});
         context.session.idcate = context.query.id;
     }
 

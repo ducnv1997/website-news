@@ -2,7 +2,7 @@
 class LoginController {
 
     async loginView(context) {
-        await context.render('login.njk.html' );
+        await context.render('admin/login.njk.html' );
     }
 
     async handleLogin(context, next) {

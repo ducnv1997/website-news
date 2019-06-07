@@ -1,7 +1,8 @@
 class DashboardController {
 
     async index(context) {
-        await context.render('dashboard.njk.html');
+        let user = context.session.logined;
+        await context.render('admin/dashboard.njk.html',{user});
     }
 
     async logout(context) {

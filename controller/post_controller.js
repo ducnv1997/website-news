@@ -2,19 +2,17 @@ class PostController {
 
     async index(context) {
         let posts = await context.postRepository.getAllPost();
-        context.render('post.njk.html', {posts});
+        let user      = context.session.logined
+
+        context.render('admin/post.njk.html', {posts, user});
     }
     async getImages(context) {
         context.body  = await context.image.readImages();
         
     }
     async uploadImages(context) {
-        
-        if(!context.req.files[0]){
-            context.message = "Upload fail";
-        }else{
-            context.render('addpost.njk.html');
-        }
+        context.alert('success');
+        context.redirect('back');
 
     }
 
@@ -26,7 +24,8 @@ class PostController {
 
     async addPost(context) {
         let categories = await context.categoryRepository.getAllCategory();
-        context.render('addpost.njk.html', {categories});
+        let user      = context.session.logined
+        context.render('admin/addpost.njk.html', {categories, user});
     }
 
     async handleAddPost(context) {
@@ -52,7 +51,8 @@ class PostController {
     async editPost(context) {
         let dataPost = await context.postRepository.getDataPostById(context.query.id);
         let categories = await context.categoryRepository.getAllCategory();
-        context.render('editpost.njk.html', { categories,dataPost });
+        let user      = context.session.logined
+        context.render('admin/editpost.njk.html', { categories, dataPost, user });
         context.session.idpost = context.query.id;
     }
 

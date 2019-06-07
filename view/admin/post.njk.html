@@ -1,33 +1,39 @@
-{% extends "layout.njk.html" %}
+{% extends "admin/layout.njk.html" %}
 
 {% block title %}
-  Category
+  Post
 {% endblock %}
 
 {% block content %}
-<h1>This is Category Page Manager</h1>
+<h1>This is Post Page Manager</h1>
 <div class="col-md-8 mx-auto mt-5">
     <div class="row tex">
         <div class="col-md-8 float left">
-          <a href="/admin/addcategory" class="btn btn-primary"> Add category + </a>
-          <h3 class="text-danger">{{ err }}</h3>
+          <a href="/addpost" class="btn btn-primary"> Add Post + </a>
+          <a href="" class="btn btn-primary">View all</a>
         </div>
       </div>
 <table class="table">
   <thead>
       <tr>
-          <th>Id Category</th>
-          <th>Name Category</th>
+          <th>Id Post</th>
+          <th>Title Post</th>
+          <th>Category</th>
+          <th>View</th>
+          <th>Ngay dang</th>
           <th colspan="2" width="3%" class="text-center">Action</th>
       </tr>
   </thead>
   <tbody>
-      {% for item in categorys %}
+      {% for item in posts %}
       <tr id="row{{ item.id }}">
         <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.view }}</td>
+        <td>{{ item.created_at.toDateString() }}</td>
         <td>
-          <a href="/admin/editcategory?id={{ item.id }}&name={{ item.name }}" class="btn btn-info" >Edit</a>
+          <a href="/admin/editpost?id={{ item.id }}" class="btn btn-info" >Edit</a>
         </td>
         <td>
           <button class="btn btn-danger btnDelete" id="{{ item.id }}">Delete</button>
@@ -35,27 +41,23 @@
       </tr>
       {% endfor %}
   </tbody>
-  <tbody>
 </table>
 </div>
 {% endblock %}
 {% block bottom %}
 <script type="text/javascript">
-  $(function (){
+$(function (){
     $('.btnDelete').click(function() {
       let click = $(this);
-      let idCate = click.attr( "id" );
+      let idPost = click.attr( "id" );
 					$.ajax({
-						url: "/admin/deletecategory",
-						data: { id:idCate },
+						url: "/admin/deletepost",
+						data: { id:idPost },
             type: 'POST',
-						beforeSend: function(){
-							click.text('loading...');
-						},
 						success: function(result){
               if (result) {
-                alert('success')
-                $('#row'+idCate).hide();
+                alert("success");
+                $('#row'+idPost).hide();
               }else{
                 alert('fail');
               }

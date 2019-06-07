@@ -13,7 +13,6 @@ class PostControllerFrontend {
             let categories      = await context.categoryRepository.getAllCategory();
             let postsMostView   = await context.postRepository.getPostMostView();
             let user            = context.session.UserLogined;
-    
             context.render('frontend/index.njk.html', {posts, categories, postsMostView, totalPage, currentPage, user});
        
         } catch (error) {
@@ -23,7 +22,11 @@ class PostControllerFrontend {
       }
 
     async contentPost(context) {
+    
+        
         let liked           = '';
+        let currentUrl      = context.request.protocol + '://' +  context.request.get('host') +  context.request.originalUrl
+
         try {
             let post            = await context.postRepository.getDataPostById(context.query.id);
             let views           = await context.postRepository.increaseView(context.query.id, post[0].view);
@@ -35,8 +38,9 @@ class PostControllerFrontend {
             if(user) {
                 liked   = await context.likeRepository.checkLike(post[0].id, user.id);
             }
+            // console.log(user)
 
-            context.render('frontend/contentpost.njk.html', {post, categories, views, postsMostView, user, comments, liked});
+            context.render('frontend/contentpost.njk.html', {post, categories, views, postsMostView, user, comments, liked, currentUrl});
         } catch (error) {
             context.redirect('/notfound');
         }

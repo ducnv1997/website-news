@@ -20,7 +20,7 @@
                 <nav class="classy-navbar justify-content-between" id="magNav">
 
                     <!-- Nav brand -->
-                    <a href="/" class="nav-brand"><img src="frontend/img/core-img/logo.png" alt=""></a>
+                    <a href="/" class="nav-brand"><img src="public/images/default/news.jpg" style="width: 75px; height: 50px;"></a>
 
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
@@ -60,13 +60,17 @@
                             
                             {% if user %}
                             
-
+                                {% if user.avatar %}
                                 <div class="bg-img float-left ml-3" style="background-image: url({{user.avatar}});min-height: 60px;min-width: 60px;border-radius: 50%;">
                                 </div>
+                                {% else %}
+                                <div class="bg-img float-left ml-3" style="background-image: url(https://png.pngtree.com/svg/20161027/631929649c.svg);min-height: 60px;min-width: 60px;border-radius: 50%;">
+                                </div>
+                                {%endif%}
  
                                 <div class="float-left ml-3">
                                     
-                                    <a href="" >{{user.fullname}}</a>
+                                    <a href="#" >{{user.fullname}}</a>
                                 </div>
 
                             <div class="dropdown show">
@@ -92,7 +96,7 @@
     <!-- ##### Header Area End ##### -->
 
     <!-- ##### Breadcrumb Area Start ##### -->
-    <section class="breadcrumb-area bg-img bg-overlay" style="background-image: url(frontend/img/bg-img/41.jpg);">
+    <section class="breadcrumb-area bg-img bg-overlay" style="background-image: url(public/images/default/41.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
@@ -154,11 +158,11 @@
                         <a href="index.html" class="foo-logo"><img src="frontend/img/core-img/logo2.png" alt=""></a>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                         <div class="footer-social-info">
-                            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                            <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-                            <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-                            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                            <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+                            <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="google-plus"><i class="fab fa-google-plus"></i></a>
+                            <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                 </div>
@@ -252,7 +256,7 @@
                     <!-- Copywrite Text -->
                     <div class="col-12 col-sm-6">
                         <p class="copywrite-text"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with by <a href="https://colorlib.com" target="_blank">Colorlib</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                     <div class="col-12 col-sm-6">

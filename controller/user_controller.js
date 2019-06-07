@@ -1,7 +1,8 @@
 class UserController {
     async index(context) {
         let users = await context.userRepository.getAllUser();
-        context.render('users.njk.html', {users});
+        let user      = context.session.logined
+        context.render('admin/users.njk.html', {users, user});
     }
 
     async appointUser(context) {

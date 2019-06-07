@@ -13,6 +13,15 @@ class LoginedMiddleware {
         }
         await next();
     }
+
+    async checkUserLoginedBeforeLike(context, next){
+        if(!context.session.UserLogined){
+            context.response.body = false;
+        }else{
+            await next();
+        }
+        
+    }
 }
 
 module.exports = LoginedMiddleware;

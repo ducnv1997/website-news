@@ -73,7 +73,7 @@ router.post('/admin/deleteuser',userController.deleleUser);
 router.post('/admin/demotiont',userController.demotiontUser);
 
 router.get('/files',loginedMiddleware.checkAdminLogined,postController.getImages);
-router.post('/admin/uploadimages',upload.array('image',100), postController.uploadImages);
+router.post('/admin/uploadimages',upload.array('image',100),validatorFormMiddleware.checkUploadImagesToSever, postController.uploadImages);
 router.post('/delete_file',postController.deleteImage);
 
 router.get('/admin/post',loginedMiddleware.checkAdminLogined,postController.index);
@@ -99,10 +99,10 @@ router.post('/loginfb',facebookController.loginFB);
 
 router.get('/register', registerController.registerNewUser);
 router.post('/handleregister', validatorFormMiddleware.validateFormRegister,registerController.handleregister);
-router.post('/comment', validatorFormMiddleware.validateFormComment, commentController.addcomment);
-router.post('/deletecomment', commentController.deleteComment);
-router.post('/editcomment',validatorFormMiddleware.validateFormComment, commentController.editComment);
-router.post('/like', likeController.handleLike);
+router.post('/comment',loginedMiddleware.checkUserLogined, validatorFormMiddleware.validateFormComment, commentController.addcomment);
+router.post('/deletecomment',loginedMiddleware.checkUserLogined, commentController.deleteComment);
+router.post('/editcomment',loginedMiddleware.checkUserLogined, validatorFormMiddleware.validateFormComment, commentController.editComment);
+router.post('/like', loginedMiddleware.checkUserLoginedBeforeLike,likeController.handleLike);
 
 router.get('/notfound',notFoundController.index);
 router.get('/change-password',loginedMiddleware.checkUserLogined,infoUSerController.changePassword);

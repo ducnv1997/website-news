@@ -93,9 +93,16 @@ class ValidatorFormMiddleware {
         context.description = description;
         context.idCategory  = idCategory;
         context.content     = content;
-        context.pathAvatar  = (context.req.file.path).replace("view/", "");
-        // let newPath = avatarPatth.replace("view", "..");
+        context.pathAvatar  = (context.req.file.path).replace("view", "");
         await next();
+    }
+
+    async checkUploadImagesToSever(context, next) {
+        if(context.req.files.length){
+            return await next();
+        }
+        context.alert('you need choice image');
+        context.redirect('back');
     }
 
     async validateFormEditPost(context, next) {
@@ -193,7 +200,7 @@ class ValidatorFormMiddleware {
         context.address     = address;
         context.email       = email; 
         if (context.req.file) {
-            context.avatar = (context.req.file.path).replace("view/", "");
+            context.avatar = (context.req.file.path).replace("view", "");
         }
         await next();
     }
