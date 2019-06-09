@@ -1,11 +1,32 @@
 class PostController {
 
     async index(context) {
-        let posts = await context.postRepository.getAllPost();
-        let user      = context.session.logined
+        let limit = 3;
+        let page = context.request.body.page ? context.request.body.page : 1;
+        let start = (limit * page) - limit;
+        let posts = "";
 
+        if(page >1) {
+             posts = await context.postRepository.getAllPostByPage(limit +1, start);
+             return context.response.body = {posts,limit};
+        }
+
+        posts = await context.postRepository.getAllPostByPage(limit, start);
+
+        let user      = context.session.logined
         context.render('admin/post.njk.html', {posts, user});
+        
+
     }
+
+    // async index(context) {
+    //     let page = context.request.body.page ? context.request.body.page : 1;
+    //     let posts = await context.postRepository.getAllPost();
+    //     let user      = context.session.logined
+
+    //     context.render('admin/post.njk.html', {posts, user});
+    // }
+
     async getImages(context) {
         context.body  = await context.image.readImages();
         

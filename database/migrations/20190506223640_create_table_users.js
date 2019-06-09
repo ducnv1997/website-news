@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
       table.increments('id').unsigned().primary();
       table.string('fullname', 255).notNullable().collate('utf8_unicode_ci');
       table.string('address',255).collate('utf8_unicode_ci');
-      table.string('email',255).notNullable();
+      table.string('email',255);
       table.integer('id_role').unsigned().defaultTo(1);
       table.string('avatar', 255);
       table.string('username',255).notNullable();

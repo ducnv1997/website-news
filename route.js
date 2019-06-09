@@ -82,7 +82,7 @@ router.post('/admin/handleaddpost',upload.single('avatar'),validatorFormMiddlewa
 router.post('/admin/deletepost',postController.deletePost);
 router.get('/admin/editpost',loginedMiddleware.checkAdminLogined,postController.editPost);
 router.post('/admin/handleeditpost',validatorFormMiddleware.validateFormEditPost,postController.handleEditPost);
-
+router.post('/admin/loadmore',loginedMiddleware.checkAdminLogined, postController.index);
 
 // Router fronend**********************************************************
 
