@@ -32,7 +32,7 @@
         <td>{{ item.category }}</td>
         <td>{{ item.view }}</td>
         <td>{{ item.user}}</td>
-        <td>{{ item.created_at.toDateString() }}</td>
+        <td>{{ item.created_at }}</td>
         <td>
           <a href="/admin/editpost?id={{ item.id }}" class="btn btn-info" >Edit</a>
         </td>
@@ -55,7 +55,7 @@ $(function (){
       
       let currentPage = 1;
       let html = ''
-      $('#loadmore').click(function() {
+      $('#loadmore').on('click',function() {
         currentPage ++;
         $.ajax({
 						url: "/admin/loadmore",
@@ -63,7 +63,7 @@ $(function (){
             
             type: 'POST',
 						success: function(result){
-
+              let a = result.posts[0].created_at;
               if (result.posts.length <= result.limit ) {
                 for (let i = 0; i < result.posts.length; i++) {
                   html = '<tr id="row'+ result.posts[i].id +'">'+
@@ -72,8 +72,7 @@ $(function (){
                           '<td>'+ result.posts[i].category +'</td>'+
                           '<td>'+ result.posts[i].view +'</td>'+
                           '<td>'+ result.posts[i].user +'</td>'+
-                          '<td>'+ result.posts[i].created_at + '</td>'+
-                          
+                          '<td>'+ result.posts[i].created_at+ '</td>'+
                           '<td>'+
                             '<a href="/admin/editpost?id='+ result.posts[i].id + '" class="btn btn-info" >Edit</a>'+
                           '</td>'+
@@ -109,10 +108,11 @@ $(function (){
 					});
       });
 
-      $('.btnDelete').click(function() {
-        console.log('111111111111111111')
-      let click = $(this);
-      let idPost = click.attr( "id" );
+      $(document).on('click', '.btnDelete', function() {
+        let answer = confirm('do  you want delete');
+        if (answer) {
+            let click = $(this);
+            let idPost = click.attr( "id" );
 					$.ajax({
 						url: "/admin/deletepost",
 						data: { id:idPost },
@@ -127,6 +127,8 @@ $(function (){
               
 						}
 					});
+        }
+     
       });
   })
 </script>

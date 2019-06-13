@@ -71,20 +71,23 @@
         $('.btnappoint').click(function() {
             let click = $(this);
             let id = click.attr( "id" );
-            $.ajax({
-                    url: "/admin/appointuser",
-                    data: { id:id },
-                    type: 'POST',
-                    success: function(result){
-                        if (result) {
-                        alert("appoint success");
-                        window.location.reload(true)
-                        }else{
-                        alert('fail');
+            let answer = confirm('do  you want delete');
+            if (answer) {
+                $.ajax({
+                        url: "/admin/appointuser",
+                        data: { id:id },
+                        type: 'POST',
+                        success: function(result){
+                            if (result) {
+                            alert("appoint success");
+                            window.location.reload(true)
+                            }else{
+                            alert('fail');
+                            }
+                    
                         }
-                
-                    }
-            });
+                });
+            }
         });
 
         $('.demotiont').click(function() {

@@ -112,8 +112,6 @@
     {% block footer %}
     <script type="text/javascript">
        $(function (){
-        //    let currentUrl = location.href;
-        //    $('#share').attr('data-href') = 'http://webcoban.vn/javascript/cach-lay-url-cua-trang-web-dang-truy-cap-trong-javascript.html'
 
             $('.editcomment').click(function() {
                 let click = $(this);
@@ -141,6 +139,8 @@
             $('.deletecomment').click(function() {
             let click = $(this);
             let idComment = click.attr( "id" );
+            let answer = confirm('do  you want delete');
+            if (answer) {
                     $.ajax({
                         url: "/deletecomment",
                         data: { id:idComment },
@@ -153,10 +153,10 @@
                             }
                         }
                     });
+                }
             });
 
             $('.like').click(function() {
-                // alert(location.href)
             var idPost = $('.like'). attr("id");
                 $.ajax({
                     url: "/like",

@@ -6,7 +6,7 @@ class Post {
         this.description= description;
         this.avatar     = avatar;
         this.view       = view;
-        this.created_at = created_at;
+        this.created_at = created_at.toDateString();
         this.user       = user;
     }
 
