@@ -7,8 +7,6 @@ class ValidatorFormMiddleware {
         let username = validator.trim(context.request.body.username);
         let password = validator.trim(context.request.body.password);
 
-        username = validator.escape(username);
-        password = validator.escape(password);
         username = xss(username);
         password = xss(password);
 
@@ -31,11 +29,6 @@ class ValidatorFormMiddleware {
         let username = validator.trim(context.request.body.username);
         let password = validator.trim(context.request.body.password);
 
-        fullname    = xss(validator.escape(fullname));
-        address     = xss(validator.escape(address));
-        email       = xss(validator.escape(email));
-        password    = xss(validator.escape(password));
-        username    = xss(validator.escape(username));
 
         if (validator.isEmpty(fullname) || validator.isEmpty(address) || validator.isEmpty(password)|| validator.isEmpty(username) || validator.isEmpty(email)) {
             context.alert('you need input full data to resgister form');
@@ -56,7 +49,6 @@ class ValidatorFormMiddleware {
 
     async validateFormCategoryName (context, next) {
         let nameCategory    = validator.trim(context.request.body.nameCategory);
-        nameCategory        = validator.escape(nameCategory);
         nameCategory        = xss(nameCategory);
 
         if(validator.isEmpty(nameCategory)){
@@ -75,8 +67,6 @@ class ValidatorFormMiddleware {
         let description     = validator.trim(context.req.body.description);
         let content         = validator.trim(context.req.body.content);
 
-        title           = validator.escape(title);
-        description     = validator.escape(description);
         title           = xss(title);
         description     = xss(description);
         content         = xss(content);
@@ -112,9 +102,7 @@ class ValidatorFormMiddleware {
         let description     = validator.trim(context.request.body.description);
         let content         = validator.trim(context.request.body.content);
 
-        title           = validator.escape(title);
         title           = xss(title);
-        description     = validator.escape(description);
         description     = xss(description);
         content         = xss(content);
 
@@ -136,7 +124,6 @@ class ValidatorFormMiddleware {
             return context.redirect('back');
         }
         keyword     = validator.trim(keyword);
-        keyword     = validator.escape(keyword);
         keyword     = xss(keyword);
 
         context.keyword = keyword;
@@ -146,8 +133,8 @@ class ValidatorFormMiddleware {
 
     async validateFormComment(context, next){
         let message = validator.trim(context.request.body.message);
-        message     = validator.escape(message);
         message     = xss(message);
+
         if(validator.isEmpty(message)){
             context.alert('message is empty');
             return context.redirect('back');
@@ -158,8 +145,6 @@ class ValidatorFormMiddleware {
     }
 
     async validateFormChangePassword(context, next) {
-        let newPassword         = validator.escape(context.request.body.newpassword);
-        let confirmPawssword    = validator.escape(context.request.body.confirmpassword);
         newPassword             = xss(newPassword);
         confirmPawssword        = xss(confirmPawssword);
         if (validator.isEmpty(newPassword) || validator.isEmpty(confirmPawssword)) {
@@ -183,10 +168,6 @@ class ValidatorFormMiddleware {
         fullname    = validator.trim(fullname);
         address     = validator.trim(address);
         email       = validator.trim(email);
-
-        fullname    = validator.escape(fullname);
-        address     = validator.escape(address);
-        email       = validator.escape(email);
 
         fullname    = xss(fullname);
         address     = xss(address);

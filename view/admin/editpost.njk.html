@@ -1,7 +1,7 @@
 {% extends "admin/layout.njk.html" %}
 
 {% block title %}
-Addd Category
+Edit Post
 {% endblock %}
 
 {% block content %}
@@ -40,7 +40,9 @@ Addd Category
         </div>	
         <div class="col-md-9 form-group">
                 <label for="content">Content</label>
+                <!-- <textarea class="content" name="content" id="texteditor">{{ dataPost[0].content  }}</textarea> -->
                 <textarea class="content" name="content" id="texteditor">{{ dataPost[0].content | safe }}</textarea>
+
         </div>
         <div class="col-md-6 offset-md-3 mt-3 mb-3">
                 <button type="submit" class="btn btn-primary btn-block"> ADD POST + </button>
@@ -50,9 +52,9 @@ Addd Category
 {% endblock %}
 {% block bottom %}
 <script> 
-        CKEDITOR.replace('texteditor', {
-                "extraPlugins" : 'imagebrowser',
-                "imageBrowser_listUrl" : "/files"
-        });
+ CKEDITOR.replace('texteditor', {
+	"extraPlugins" : 'imagebrowser',
+        "imageBrowser_listUrl" : "/files"
+});
 </script>
 {% endblock %}

@@ -1,13 +1,11 @@
-FROM node:carbon
+FROM node:8.10.0
 
-RUN mkdir /app
+RUN mkdir /web
 
-WORKDIR /app
+COPY . /web
 
-COPY ./package.json .
+WORKDIR /web
 
 RUN npm install
-
-COPY ./run.js ./run.js
 
 CMD node run.js

@@ -15,7 +15,6 @@ exports.up = function(knex, Promise) {
     })
     .alterTable('users', function(table) {
       table.unique(['username']);
-      table.unique(['email']);
     })
     .table('users', function (table) {
       table.foreign('id_role').references('role.id').onUpdate('RESTRICT').onDelete('CASCADE');

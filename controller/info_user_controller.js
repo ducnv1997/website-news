@@ -1,4 +1,5 @@
 class InfoUserController {
+
     async infoUser(context) {
         let user = await context.userRepository.getUserByUsername(context.session.UserLogined.username);
         context.render('frontend/infouser.njk.html',{user});
@@ -15,6 +16,7 @@ class InfoUserController {
 
             context.authentication.createSessionUserLogined(user[0])
             context.alert('success');
+            
         } catch (error) {
             context.alert('An error occurred. Please try again later');
         }

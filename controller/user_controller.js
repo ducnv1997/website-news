@@ -16,6 +16,9 @@ class UserController {
 
     async deleleUser(context) {
         context.response.body = await context.userRepository.deleteUser(context.request.body.id);
+        if (context.session.UserLogined.id == context.request.body.id) {
+            context.authentication.destroySessionUserLogined();
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 {% extends "frontend/layout.njk.html" %}
 
+{% block title %} post {% endblock %}
+
 {% block content %}
 <!-- {{ posts[0] }} -->
 <div class="archive-posts-area bg-white p-30 mb-30 box-shadow">
@@ -17,7 +19,7 @@
                 </div>
                 <p>{{ item.description }}</p>
                 <a href="#" class="float-right"><i class="fa fa-eye" aria-hidden="true"></i> {{item.view}}</a>
-                <p>{{ item.created_at }}</p>
+                <p>{{ item.created_at.toDateString() }}</p>
             </div>
         </div>
         {% endfor %}

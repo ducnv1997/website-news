@@ -3,17 +3,18 @@ services:
     webnews:
         build: .
         ports:
-            - 5000:3000
+            - 4444:4444
         env_file:
             - .env
         working_dir: /app
         volumes:
             - .:/app
-            - /app/node_modules
         links:
             - database
             
     database:
-        image: mysql
+        image: "mariadb"
         env_file:
           - .env
+        expose:
+          - '3306'

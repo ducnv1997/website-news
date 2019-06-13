@@ -19,14 +19,6 @@ class PostController {
 
     }
 
-    // async index(context) {
-    //     let page = context.request.body.page ? context.request.body.page : 1;
-    //     let posts = await context.postRepository.getAllPost();
-    //     let user      = context.session.logined
-
-    //     context.render('admin/post.njk.html', {posts, user});
-    // }
-
     async getImages(context) {
         context.body  = await context.image.readImages();
         
@@ -49,7 +41,7 @@ class PostController {
         context.render('admin/addpost.njk.html', {categories, user});
     }
 
-    async handleAddPost(context) {
+    async handleAddPost(context, next) {
         try {
             await context.postRepository.addPost(context.title, context.idCategory, context.session.logined.id, context.content, context.description, context.pathAvatar);
         } catch (error) {
@@ -61,7 +53,8 @@ class PostController {
         context.content     = null;
         context.description = null;
         context.pathAvatar  = null;
-        return context.redirect('/admin/post');
+        context.redirect('/admin/post');
+        await next();
 
     }
 
@@ -72,7 +65,7 @@ class PostController {
     async editPost(context) {
         let dataPost = await context.postRepository.getDataPostById(context.query.id);
         let categories = await context.categoryRepository.getAllCategory();
-        let user      = context.session.logined
+        let user      = context.session.logined;
         context.render('admin/editpost.njk.html', { categories, dataPost, user });
         context.session.idpost = context.query.id;
     }
@@ -87,5 +80,17 @@ class PostController {
         context.session.idpost  = null;
         return context.redirect('/admin/post');
     }
+
+    async search(context) {
+
+            let keyword         = context.keyword;
+            let posts =  await context.postRepository.searchPostOrUserByKeyword(keyword);
+            let user      = context.session.logined
+
+            context.render('admin/search.njk.html', {posts, user});
+            context.keyword = null;
+    }
+
+   
 }
 module.exports = PostController;

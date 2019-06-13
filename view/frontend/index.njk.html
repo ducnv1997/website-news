@@ -1,5 +1,6 @@
 {% extends "frontend/layout.njk.html" %}
 
+{% block title %} Home {% endblock %}
 {% block content %}
 <!-- {{ posts[0] }} -->
 <div class="archive-posts-area bg-white p-30 mb-30 box-shadow mt-3">
@@ -14,9 +15,9 @@
             <div class="post-content">
                 <a href="/contentpost?id={{item.id}}" class="post-title">{{ item.title }}</a>
                 <!-- Post Meta -->
-                <div class="post-meta-2">
+                <div class="post-meta-2 mx-auto">
+                        <p>{{ item.description }}</p>
                 </div>
-                <p>{{ item.description }}</p>
                 <a href="#" class="float-right"><i class="fa fa-eye" aria-hidden="true"></i> {{item.view}}</a>
                 <p>{{ item.created_at.toLocaleString() }}</p>
             </div>

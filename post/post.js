@@ -1,5 +1,5 @@
 class Post {
-    constructor(id, title, category, description, avatar, view, created_at) {
+    constructor(id, title, category, description, avatar, view, created_at, user) {
         this.id         = id;
         this.title      = title;
         this.category   = category;
@@ -7,6 +7,7 @@ class Post {
         this.avatar     = avatar;
         this.view       = view;
         this.created_at = created_at;
+        this.user       = user;
     }
 
     getIdPost() {
@@ -27,8 +28,12 @@ class Post {
     getViewPost() {
         return this.view;
     }
+    getUser() {
+        return this.user
+    }
     getTimeCreatePost() {
         return this.created_at;
     }
+    
 }
 module.exports = Post;

@@ -15,6 +15,10 @@ const storage     =   multer.diskStorage({
 
 const upload = multer({ storage : storage});
 
+const webpush = require('web-push')
+
+
+
 
 const DashBoardControllers        = require('./controller/dashboard_controller');
 const LoginController             = require('./controller/login_controller');
@@ -33,7 +37,7 @@ const NotFoundController          = require('./controller/notFound_controller');
 const InfoUSerController          = require('./controller/info_user_controller');
 
 const ValidatorFormMiddleware     = require('./middleware/validatorFormMiddleware');
-
+const notifi = require('./middleware/sendNotification')
 const router = new Router();
 
 const validatorFormMiddleware     = new ValidatorFormMiddleware();
@@ -78,11 +82,13 @@ router.post('/delete_file',postController.deleteImage);
 
 router.get('/admin/post',loginedMiddleware.checkAdminLogined,postController.index);
 router.get('/addpost',loginedMiddleware.checkAdminLogined,postController.addPost);
-router.post('/admin/handleaddpost',upload.single('avatar'),validatorFormMiddleware.validateFormPost, postController.handleAddPost);
+router.post('/admin/handleaddpost',upload.single('avatar'),validatorFormMiddleware.validateFormPost, postController.handleAddPost,notifi );
 router.post('/admin/deletepost',postController.deletePost);
 router.get('/admin/editpost',loginedMiddleware.checkAdminLogined,postController.editPost);
 router.post('/admin/handleeditpost',validatorFormMiddleware.validateFormEditPost,postController.handleEditPost);
 router.post('/admin/loadmore',loginedMiddleware.checkAdminLogined, postController.index);
+router.get('/admin/search', loginedMiddleware.checkAdminLogined, validatorFormMiddleware.validateFormSearch, postController.search );
+
 
 // Router fronend**********************************************************
 
@@ -109,6 +115,28 @@ router.get('/change-password',loginedMiddleware.checkUserLogined,infoUSerControl
 router.post('/handle-change-password',loginedMiddleware.checkUserLogined,validatorFormMiddleware.validateFormChangePassword,infoUSerController.handleChangePassword);
 router.get('/accountdetails', loginedMiddleware.checkUserLogined,infoUSerController.infoUser)
 router.post('/handleeditinfo',loginedMiddleware.checkUserLogined,upload.single('avatar'),validatorFormMiddleware.validateFormEditInfo,infoUSerController.handleeditinfo)
+
+
+const publicVapidKey =
+"BKxIATK8O1NOjQsrxD-Mc50eXgZRHuUJWFFGAFKvGsqY_mIw42SfuZ67670EQOd8EiqMTezg9lMtHZQD1oQB-6s";
+const privateVapidKey = "pLzlbAsZ12rl-o1j9OjT4Hp7OXRsZEfbUx7YfqwZHSo";
+
+webpush.setVapidDetails(
+  "mailto:test@test.com",
+  publicVapidKey,
+  privateVapidKey
+);
+
+
+router.post('/subcribe', (ctx, next) => {
+  subscription = ctx.request.body;
+
+  // ctx.response.status = 200
+  const payload = JSON.stringify({ title: "Push Test" });
+  webpush
+    .sendNotification(subscription,payload)
+    .catch(err => console.error(err));
+});
 
 module.exports = router;
 

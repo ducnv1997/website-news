@@ -11,6 +11,7 @@ const authProvider      = require('./auth/authentication.provider');
 const middleware        = require('./middleware/middleware.provider');
 const commentProvider   = require('./comment/comment.provider');
 const likeProvider      = require('./like/like.provider');
+const routerNotfoundMiddleware = require('./middleware/router_notfound_middleware')
 
 const imageProvider     = require('./upload/image.Provider');
 const fs                = require('fs'); 
@@ -41,7 +42,10 @@ app.use(imageProvider(fs));
 app.use(middleware());
 app.use(commentProvider(knex));
 app.use(likeProvider(knex));
+app.use(routerNotfoundMiddleware)
 app.use(router.routes());
+
 app.listen(process.env.PORT, () => {
     console.log("server run in port " + process.env.PORT);
 });
+

@@ -1,16 +1,15 @@
 {% extends "admin/layout.njk.html" %}
 
 {% block title %}
-  Post
+  Manager post
 {% endblock %}
 
 {% block content %}
 <h1>This is Post Page Manager</h1>
-<div class="col-md-8 mx-auto mt-5">
+<div class="col-md-10 mx-auto mt-5">
     <div class="row tex">
         <div class="col-md-8 float left">
           <a href="/addpost" class="btn btn-primary"> Add Post + </a>
-          <a href="" class="btn btn-primary">View all</a>
         </div>
       </div>
 <table class="table">
@@ -20,7 +19,8 @@
           <th>Title Post</th>
           <th>Category</th>
           <th>View</th>
-          <th>Ngay dang</th>
+          <th>Author</th>
+          <th>Date created</th>
           <th colspan="2" width="3%" class="text-center">Action</th>
       </tr>
   </thead>
@@ -31,6 +31,7 @@
         <td>{{ item.title }}</td>
         <td>{{ item.category }}</td>
         <td>{{ item.view }}</td>
+        <td>{{ item.user}}</td>
         <td>{{ item.created_at.toDateString() }}</td>
         <td>
           <a href="/admin/editpost?id={{ item.id }}" class="btn btn-info" >Edit</a>
@@ -51,7 +52,64 @@
 {% block bottom %}
 <script type="text/javascript">
 $(function (){
-    $('.btnDelete').click(function() {
+      
+      let currentPage = 1;
+      let html = ''
+      $('#loadmore').click(function() {
+        currentPage ++;
+        $.ajax({
+						url: "/admin/loadmore",
+            data: { page:currentPage },
+            
+            type: 'POST',
+						success: function(result){
+
+              if (result.posts.length <= result.limit ) {
+                for (let i = 0; i < result.posts.length; i++) {
+                  html = '<tr id="row'+ result.posts[i].id +'">'+
+                          '<td>'+ result.posts[i].id +'</td>'+
+                          '<td>'+ result.posts[i].title +'</td>'+
+                          '<td>'+ result.posts[i].category +'</td>'+
+                          '<td>'+ result.posts[i].view +'</td>'+
+                          '<td>'+ result.posts[i].user +'</td>'+
+                          '<td>'+ result.posts[i].created_at + '</td>'+
+                          
+                          '<td>'+
+                            '<a href="/admin/editpost?id='+ result.posts[i].id + '" class="btn btn-info" >Edit</a>'+
+                          '</td>'+
+                          '<td>'+
+                            '<button class="btn btn-danger btnDelete" id="'+ result.posts[i].id +'">Delete</button>'+
+                         '</td>'+
+                        '</tr>'
+                  $('tbody').append(html);
+                }
+                $('#loadmore').hide();
+              }else{
+                for (let i = 0; i < result.posts.length -1; i++) {
+                  html = '<tr id="row'+ result.posts[i].id +'">'+
+                          '<td>'+ result.posts[i].id +'</td>'+
+                          '<td>'+ result.posts[i].title +'</td>'+
+                          '<td>'+ result.posts[i].category +'</td>'+
+                          '<td>'+ result.posts[i].view +'</td>'+
+                          '<td>'+ result.posts[i].user +'</td>'+
+                          '<td>'+ result.posts[i].created_at + '</td>'+
+                          
+                          '<td>'+
+                            '<a href="/admin/editpost?id='+ result.posts[i].id + '" class="btn btn-info" >Edit</a>'+
+                          '</td>'+
+                          '<td>'+
+                            '<button class="btn btn-danger btnDelete" id="'+ result.posts[i].id +'">Delete</button>'+
+                         '</td>'+
+                        '</tr>'
+                  $('tbody').append(html);                  
+                }
+              }
+              
+						}
+					});
+      });
+
+      $('.btnDelete').click(function() {
       let click = $(this);
       let idPost = click.attr( "id" );
 					$.ajax({
@@ -69,63 +127,6 @@ $(function (){
 						}
 					});
       });
-      
-      let currentPage = 1;
-      let html = ''
-      $('#loadmore').click(function() {
-        currentPage ++;
-        $.ajax({
-						url: "/admin/loadmore",
-            data: { page:currentPage },
-            
-            type: 'POST',
-						success: function(result){
-              console.log(result.posts)
-
-              if (result.posts.length <= result.limit ) {
-                for (let i = 0; i < result.posts.length; i++) {
-                  html = '<tr id="row'+ result.posts[i].id +'">'+
-                          '<td>'+ result.posts[i].id +'</td>'+
-                          '<td>'+ result.posts[i].title +'</td>'+
-                          '<td>'+ result.posts[i].category +'</td>'+
-                          '<td>'+ result.posts[i].view +'</td>'+
-                          '<td>'+ result.posts[i].created_at + '</td>'+
-                          
-                          '<td>'+
-                            '<a href="/admin/editpost?id='+ result.posts[i].id + '" class="btn btn-info" >Edit</a>'+
-                          '</td>'+
-                          '<td>'+
-                            '<button class="btn btn-danger btnDelete" id="'+ result.posts[i].id +'">Delete</button>'+
-                         '</td>'+
-                        '</tr>'+
-                  $('tbody').append(html);
-                }
-                $('#loadmore').hide();
-              }else{
-                for (let i = 0; i < result.posts.length -1; i++) {
-                  console.log(i);
-                  console.log(result.posts[i].id)
-                  html = '<tr id="row'+ result.posts[i].id +'">'+
-                          '<td>'+ result.posts[i].id +'</td>'+
-                          '<td>'+ result.posts[i].title +'</td>'+
-                          '<td>'+ result.posts[i].category +'</td>'+
-                          '<td>'+ result.posts[i].view +'</td>'+
-                          '<td>'+ result.posts[i].created_at + '</td>'+
-                          
-                          '<td>'+
-                            '<a href="/admin/editpost?id='+ result.posts[i].id + '" class="btn btn-info" >Edit</a>'+
-                          '</td>'+
-                          '<td>'+
-                            '<button class="btn btn-danger btnDelete" id="'+ result.posts[i].id +'">Delete</button>'+
-                         '</td>'+
-                        '</tr>'+
-                  $('tbody').append(html);                  
-                }
-              }
-              
-						}
-					});
-      })
   })
 </script>
 {% endblock %}

@@ -1,6 +1,7 @@
 
 
 class Image {
+
     constructor(fs, upload) {
         this.fs     = fs;
         this.upload = upload
@@ -15,7 +16,7 @@ class Image {
           || item.split('.').pop() === 'jpeg'
           || item.split('.').pop() === 'svg'){
               var imgIndo = {
-                    "image" : "public/images/"+item,
+                    "image" : "/public/images/"+item,
                     "folder" : '/'
               }
               data.push(imgIndo)

@@ -2,19 +2,20 @@ const Post = require('./post');
 
 class PostRepository {
     constructor(knex) {
-        this.knex = knex
+        
+        this.knex = knex;
     }
 
     async getAllPost() {
-        let results = await this.knex.select('posts.*', 'category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).orderBy('posts.created_at', 'desc');
+        let results = await this.knex.select('posts.*', 'category.name', 'users.fullname').from('posts').join('category', {'category.id': 'posts.id_category'}).join('users', {'users.id': 'posts.id_user'}).orderBy('posts.created_at', 'desc');
 
-        return results.map(result => new Post(result.id, result.title, result.name, result.description, result.avatar, result.view, result.created_at));
+        return results.map(result => new Post(result.id, result.title, result.name, result.description, result.avatar, result.view, result.created_at, result.fullname));
     }
 
     async getAllPostByPage(limit, ofset) {
-        let results = await this.knex.select('posts.*', 'category.name').from('posts').join('category', {'category.id': 'posts.id_category'}).orderBy('posts.created_at', 'desc').limit(limit).offset(ofset);
+        let results = await this.knex.select('posts.*', 'category.name','users.fullname').from('posts').join('category', {'category.id': 'posts.id_category'}).join('users', {'users.id': 'posts.id_user'}).orderBy('posts.created_at', 'desc').limit(limit).offset(ofset);
 
-        return results.map(result => new Post(result.id, result.title, result.name, result.description, result.avatar, result.view, result.created_at));
+        return results.map(result => new Post(result.id, result.title, result.name, result.description, result.avatar, result.view, result.created_at, result.fullname));
     }
 
     async getPostMostView() {
@@ -71,6 +72,11 @@ class PostRepository {
 
     async searchPostByKeyword(keyword, limit, ofset) {
         return await this.knex('posts').where('title', 'like', '%' + keyword + '%').limit(limit).offset(ofset);
+    }
+
+    async searchPostOrUserByKeyword(keyword) {
+        let results = await this.knex.select('posts.*', 'category.name', 'users.fullname').from('posts').join('users', {'users.id': 'posts.id_user'}).join('category', {'category.id': 'posts.id_category'}).where('title', 'like', '%' + keyword + '%').orWhere('fullname', 'like', '%' + keyword + '%').orderBy('posts.created_at', 'desc');
+        return results.map(result => new Post(result.id, result.title, result.name, result.description, result.avatar, result.view, result.created_at, result.fullname));
     }
 
     async CountPostByKeyword(keyword) {

@@ -1,0 +1,73 @@
+{% extends "admin/layout.njk.html" %}
+
+{% block title %}
+  search
+{% endblock %}
+
+{% block content %}
+<h1>This is Page search</h1>
+<div class="col-md-8 mx-auto mt-5">
+    <div class="row tex">
+        <div class="col-md-8 float left">
+          <a href="/addpost" class="btn btn-primary"> Add Post + </a>
+        </div>
+      </div>
+<table class="table">
+  <thead>
+      <tr>
+          <th>Id</th>
+          <th>Title Post</th>
+          <th>Category</th>
+          <th>View</th>
+          <th>Author</th>
+          <th>Date created</th>
+          <th colspan="2" width="3%" class="text-center">Action</th>
+      </tr>
+  </thead>
+  <tbody id="test">
+      {% for item in posts %}
+      <tr id="row{{ item.id }}">
+        <td>{{ item.id }}</td>
+        <td>{{ item.title }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.view }}</td>
+        <td>{{ item.user}}</td>
+        <td>{{ item.created_at.toDateString() }}</td>
+        <td>
+          <a href="/admin/editpost?id={{ item.id }}" class="btn btn-info" >Edit</a>
+        </td>
+        <td>
+          <button class="btn btn-danger btnDelete" id="{{ item.id }}">Delete</button>
+        </td>
+      </tr>
+      {% endfor %}
+  </tbody>
+
+</table>
+</div>
+{% endblock %}
+{% block bottom %}
+<script type="text/javascript">
+$(function (){
+    $('.btnDelete').click(function() {
+      let click = $(this);
+      let idPost = click.attr( "id" );
+					$.ajax({
+						url: "/admin/deletepost",
+						data: { id:idPost },
+            type: 'POST',
+						success: function(result){
+              if (result) {
+                alert("success");
+                $('#row'+idPost).hide();
+              }else{
+                alert('fail');
+              }
+              
+						}
+					});
+      });
+      
+  })
+</script>
+{% endblock %}
