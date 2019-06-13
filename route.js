@@ -116,26 +116,8 @@ router.post('/handle-change-password',loginedMiddleware.checkUserLogined,validat
 router.get('/accountdetails', loginedMiddleware.checkUserLogined,infoUSerController.infoUser)
 router.post('/handleeditinfo',loginedMiddleware.checkUserLogined,upload.single('avatar'),validatorFormMiddleware.validateFormEditInfo,infoUSerController.handleeditinfo)
 
-
-const publicVapidKey =
-"BKxIATK8O1NOjQsrxD-Mc50eXgZRHuUJWFFGAFKvGsqY_mIw42SfuZ67670EQOd8EiqMTezg9lMtHZQD1oQB-6s";
-const privateVapidKey = "pLzlbAsZ12rl-o1j9OjT4Hp7OXRsZEfbUx7YfqwZHSo";
-
-webpush.setVapidDetails(
-  "mailto:test@test.com",
-  publicVapidKey,
-  privateVapidKey
-);
-
-
-router.post('/subcribe', (ctx, next) => {
-  subscription = ctx.request.body;
-
-  // ctx.response.status = 200
-  const payload = JSON.stringify({ title: "Push Test" });
-  webpush
-    .sendNotification(subscription,payload)
-    .catch(err => console.error(err));
+router.post('/pushnotification', (context) => {
+  context.session.subscription  = context.request.body;
 });
 
 module.exports = router;

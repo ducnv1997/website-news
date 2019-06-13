@@ -48,7 +48,7 @@ class PostController {
              context.alert('An error occurred. Please try again later');
         }
 
-        context.title       = null;
+        // context.title       = null;
         context.idCategory  = null;
         context.content     = null;
         context.description = null;
