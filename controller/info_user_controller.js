@@ -7,10 +7,14 @@ class InfoUserController {
 
     async handleeditinfo(context) {
         let oldAvatarPath = "view" + context.session.UserLogined.avatar;
-
+        let avatar        = context.avatar
         try {
-            context.image.deleteImage(oldAvatarPath);
-            await context.userRepository.changeInfo(context.session.UserLogined.id, context.fullname, context.address, context.email, context.avatar);
+
+            if (avatar) {
+                await context.userRepository.changeAvatar(context.session.UserLogined.id,context.avatar);
+                context.image.deleteImage(oldAvatarPath);
+            }
+            await context.userRepository.changeInfo(context.session.UserLogined.id, context.fullname, context.address, context.email);
 
             let user = await context.userRepository.getUserByUsername(context.session.UserLogined.username);
 

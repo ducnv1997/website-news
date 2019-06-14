@@ -145,6 +145,12 @@ class ValidatorFormMiddleware {
     }
 
     async validateFormChangePassword(context, next) {
+        let newPassword         = context.request.body.newpassword;
+        let confirmPawssword    = context.request.body.confirmpassword;
+
+        newPassword             = validator.trim(newPassword);
+        confirmPawssword        = validator.trim(confirmPawssword);
+
         newPassword             = xss(newPassword);
         confirmPawssword        = xss(confirmPawssword);
         if (validator.isEmpty(newPassword) || validator.isEmpty(confirmPawssword)) {
@@ -179,7 +185,7 @@ class ValidatorFormMiddleware {
        
         context.fullname    = fullname;
         context.address     = address;
-        context.email       = email; 
+        context.email       = email;
         if (context.req.file) {
             context.avatar = (context.req.file.path).replace("view", "");
         }

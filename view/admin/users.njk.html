@@ -51,28 +51,30 @@
 <script type="text/javascript">
     $(function () {
         $('.btnDelete').click(function() {
-            let click = $(this);
-            let id = click.attr( "id" );
-            $.ajax({
-                    url: "/admin/deleteuser",
-                    data: { id:id },
-                    type: 'POST',
-                    success: function(result) {
-                        if (result) {
-                        alert("success");
-                        $('#row'+id).hide();
-                        }else{
-                        alert('fail');
+                let click = $(this);
+                let id = click.attr( "id" );
+                let answer = confirm('do  you want delete');
+            if (answer) {
+                $.ajax({
+                        url: "/admin/deleteuser",
+                        data: { id:id },
+                        type: 'POST',
+                        success: function(result) {
+                            if (result) {
+                            alert("success");
+                            $('#row'+id).hide();
+                            }else{
+                            alert('fail');
+                            }
                         }
-                    }
-            });
+                });
+            }
         });
 
         $('.btnappoint').click(function() {
             let click = $(this);
             let id = click.attr( "id" );
-            let answer = confirm('do  you want delete');
-            if (answer) {
+            
                 $.ajax({
                         url: "/admin/appointuser",
                         data: { id:id },
@@ -87,7 +89,7 @@
                     
                         }
                 });
-            }
+            
         });
 
         $('.demotiont').click(function() {

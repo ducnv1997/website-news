@@ -2,7 +2,7 @@ class CommentController {
 
     async addcomment(context) {
         try {
-            await context.commentRepository.addComment(context.message, context.session.UserLogined.id, context.query.idpost);
+            await context.commentService.addComment(context.message, context.session.UserLogined.id, context.query.idpost);
         } catch (error) {
             context.alert('An error occurred. Please try again later');
             return context.redirect('/');
@@ -11,11 +11,11 @@ class CommentController {
     }
 
     async deleteComment(context) {
-        context.body = await context.commentRepository.deleteComment(context.request.body.id);
+        context.body = await context.commentService.deleteComment(context.request.body.id);
     }
 
     async editComment(context) {
-        await context.commentRepository.editComment(context.request.body.id, context.message)
+        await context.commentService.editComment(context.request.body.id, context.message)
         context.body = context.message;
     }
 

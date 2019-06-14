@@ -7,9 +7,9 @@ class CategoryControllerFrontend {
             let totalPost       = await context.postRepository.countPostByCategory(context.query.id);
             let totalPage       = await context.paginatorMiddelware.calculateTotalPage(limit, totalPost);
     
-            let posts = await context.postRepository.getDataPostByCategory(context.query.id, limit, offset);
-            let categories = await context.categoryRepository.getAllCategory();
-            let postsMostView = await context.postRepository.getPostMostView();
+            let posts           = await context.postRepository.getDataPostByCategory(context.query.id, limit, offset);
+            let categories      = await context.categoryRepository.getAllCategory();
+            let postsMostView   = await context.postRepository.getPostMostView();
             context.render('frontend/category.njk.html', {posts, categories, postsMostView, totalPage, currentPage});
         
         } catch (error) {

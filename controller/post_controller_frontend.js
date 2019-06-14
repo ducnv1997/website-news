@@ -33,10 +33,10 @@ class PostControllerFrontend {
             let categories      = await context.categoryRepository.getAllCategory();
             let postsMostView   = await context.postRepository.getPostMostView();
             let user            = context.session.UserLogined;
-            let comments        = await context.commentRepository.getAllCommentByPost(context.query.id);
+            let comments        = await context.commentService.getAllCommentByPost(context.query.id);
 
             if(user) {
-                liked   = await context.likeRepository.checkLike(post[0].id, user.id);
+                liked   = await context.likeService.checkLike(post[0].id, user.id);
             }
             context.render('frontend/contentpost.njk.html', {post, categories, views, postsMostView, user, comments, liked, currentUrl});
         } catch (error) {

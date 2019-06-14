@@ -1,10 +1,10 @@
 class PostController {
 
     async index(context) {
-        let limit = 3;
-        let page = context.request.body.page ? context.request.body.page : 1;
-        let start = (limit * page) - limit;
-        let posts = "";
+        let limit   = 3;
+        let page    = context.request.body.page ? context.request.body.page : 1;
+        let start   = (limit * page) - limit;
+        let posts   = "";
 
         if(page >1) {
              posts = await context.postRepository.getAllPostByPage(limit +1, start);
@@ -36,8 +36,8 @@ class PostController {
     }
 
     async addPost(context) {
-        let categories = await context.categoryRepository.getAllCategory();
-        let user      = context.session.logined
+        let categories  = await context.categoryRepository.getAllCategory();
+        let user        = context.session.logined
         context.render('admin/addpost.njk.html', {categories, user});
     }
 
@@ -62,9 +62,9 @@ class PostController {
     }
 
     async editPost(context) {
-        let dataPost = await context.postRepository.getDataPostById(context.query.id);
-        let categories = await context.categoryRepository.getAllCategory();
-        let user      = context.session.logined;
+        let dataPost    = await context.postRepository.getDataPostById(context.query.id);
+        let categories  = await context.categoryRepository.getAllCategory();
+        let user        = context.session.logined;
         context.render('admin/editpost.njk.html', { categories, dataPost, user });
         context.session.idpost = context.query.id;
     }
@@ -83,8 +83,8 @@ class PostController {
     async search(context) {
 
             let keyword         = context.keyword;
-            let posts =  await context.postRepository.searchPostOrUserByKeyword(keyword);
-            let user      = context.session.logined
+            let posts           = await context.postRepository.searchPostOrUserByKeyword(keyword);
+            let user            = context.session.logined
 
             context.render('admin/search.njk.html', {posts, user});
             context.keyword = null;

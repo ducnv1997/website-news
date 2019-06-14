@@ -65,12 +65,18 @@ class UserRepository {
         })
     }
 
-    async changeInfo(idUser, fullname, address, email, avatar) {
+    async changeInfo(idUser, fullname, address, email) {
         return await this.knex('users').where('id', '=', idUser).update({
             fullname: fullname,
             address : address,
             email   : email,
-            avatar  : avatar,
+            thisKeyIsSkipped: undefined
+        })
+    }
+
+    async changeAvatar(idUser, avatarPath) {
+        return await this.knex('users').where('id', '=', idUser).update({
+            avatar: avatarPath,
             thisKeyIsSkipped: undefined
         })
     }

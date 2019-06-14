@@ -43,8 +43,11 @@
 <script type="text/javascript">
   $(function (){
     $('.btnDelete').click(function() {
+
       let click = $(this);
       let idCate = click.attr( "id" );
+      let answer = confirm('do  you want delete');
+        if (answer) {
 					$.ajax({
 						url: "/admin/deletecategory",
 						data: { id:idCate },
@@ -61,8 +64,10 @@
               }
               
 						}
-					});
-			});
+          });
+        }
+      });
+      
   })
 </script>
 {% endblock %}
