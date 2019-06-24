@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
     })
     .alterTable('category', function(table) {
         table.unique(['name']);
-      })
+    })
 };
 
 exports.down = function(knex, Promise) {

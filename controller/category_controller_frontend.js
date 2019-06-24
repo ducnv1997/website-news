@@ -1,5 +1,6 @@
 class CategoryControllerFrontend {
     async index(context) {
+
         try {
             let limit           = 3;
             let currentPage     = context.query.page ? context.query.page : 1;
@@ -9,8 +10,9 @@ class CategoryControllerFrontend {
     
             let posts           = await context.postRepository.getDataPostByCategory(context.query.id, limit, offset);
             let categories      = await context.categoryRepository.getAllCategory();
-            let postsMostView   = await context.postRepository.getPostMostView();
-            context.render('frontend/category.njk.html', {posts, categories, postsMostView, totalPage, currentPage});
+            let postsMostView   = context.postsMostView;
+            let user            = context.session.UserLogined;
+            context.render('frontend/category.njk.html', {posts, categories, postsMostView, totalPage, currentPage, user});
         
         } catch (error) {
             context.alert('An error occurred');

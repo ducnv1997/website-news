@@ -13,10 +13,10 @@
 
             <!-- Post Contetnt -->
             <div class="post-content">
-                <a href="/contentpost?id={{item.id}}" class="post-title">{{ item.title }}</a>
+                <a href="/contentpost?id={{item.id}}" class="post-title w-100"  style="word-wrap: break-word">{{ item.title }}</a>
                 <!-- Post Meta -->
-                <div class="post-meta-2 mx-auto">
-                        <p>{{ item.description }}</p>
+                <div class="post-meta-2 mx-auto w-100">
+                        <p style="word-wrap: break-word">{{ item.description }}</p>
                 </div>
                 <a href="#" class="float-right"><i class="fa fa-eye" aria-hidden="true"></i> {{item.view}}</a>
                 <p>{{ item.created_at.toLocaleString() }}</p>
@@ -49,4 +49,53 @@
         </nav>
 
     </div>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-messaging.js"></script>
+    <script>
+        
+        firebase.initializeApp({
+            'messagingSenderId': '73174199799'
+        });
+        const messaging = firebase.messaging();
+
+        Notification.requestPermission().then(() => {
+            messaging.getToken().then((currentToken) => {
+                sendTokenToServer(currentToken);
+            });
+        })
+
+
+    function sendTokenToServer(currentToken) {
+        if (!isTokenSentToServer()) {
+        console.log('Sending token to server...');
+            $.ajax({
+                url: "/sendtoken",
+                data: { token : currentToken},
+                type: 'POST',
+                success: function(result){
+                    if (result) {
+                        console.log("send success");
+                    }
+                }
+            });
+        setTokenSentToServer(currentToken);
+        } else {
+        console.log('Token already sent to server so won\'t send it again unless it changes');
+        }
+    }
+
+    function isTokenSentToServer() {
+        return window.localStorage.getItem('token');
+    }
+
+    function setTokenSentToServer(token) {
+        window.localStorage.setItem('token', token ? token : '0');
+    }
+
+    Notification.onclick = function (even) {
+        
+    }
+
+    </script>
+
 {% endblock %}

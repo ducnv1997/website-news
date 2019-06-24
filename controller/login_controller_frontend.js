@@ -1,6 +1,7 @@
 class LoginControllerFrontend {
 
     async loginView(context) {
+        
         await context.render('frontend/login.njk.html');
     }
 

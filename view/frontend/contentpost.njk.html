@@ -2,12 +2,15 @@
 
 {% block title %} post {% endblock %}
 {% block content %}
-<style>
-    .blog-content #content img {
 
-        height: auto !important;
-    }
-</style>
+{% block meta %} 
+<meta property="og:title" content="{{ post[0].title }}"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="{{currentUrl}}"/>
+<meta property="og:image" content="{{ post[0].avatar }}"/>
+
+{% endblock %}
+
 <div class="post-details-content bg-white mb-30 p-30 box-shadow">
         <div class="blog-content">
             <div class="post-meta row justify-content-between">
@@ -22,14 +25,25 @@
 
                 {% if liked.length %}
                 <i class="far fa-thumbs-up fa-lg like" id="{{post[0].id}}"  style="color: red"></i>
+                    {% if likes.length > 1 %}
+                    <span id="likes">Bạn và </span> <span>{{likes.length -1}} người thích trang này</span>
+                    {% else %}
+                    <span id="like">Bạn đã thích trang này</span>
+                    {% endif %}
+                
                 {% else %}
                 <i class="far fa-thumbs-up fa-lg like" id="{{post[0].id}}"></i>
+                    {% if likes.length >= 1%}
+                    <span id="likes"></span> <span>{{likes.length}} người thích trang này</span>
+                    {% else %}
+                    <span id="like">Hãy là người đầu tiên thích trang này</span>
+                    {% endif %}
                 {% endif %}
                 
                 
             </div>
             <div>
-                    <h6>{{ post[0].description }}</h6>
+                    <h6 >{{ post[0].description }}</h6>
             </div>
             <div id="content">
                 {{ post[0].content | safe}}
@@ -61,19 +75,17 @@
                         <h6>{{item.fullname}}</h6>
                         <p>{{ item.created_at.toLocaleString() }}</p> 
                         {% if item.fullname == user.fullname %} 
-                        <a href="#" class="float-right
+                        <a  class="float-right
                         deletecomment " id="{{item.id}}"><i class="fas fa-trash-alt "></i></a>
-                        <a href="#" class="float-right mr-3 editcomment"  id="{{ item.id}}"><i class="fas fa-edit"></i></a>
+                        <a  class="float-right mr-3 editcomment"  id="{{ item.id}}"><i class="fas fa-edit"></i></a>
                         {% elseif user.role == 'admin' or user.role == 'super admin' %}
-                        <a href="#" class="float-right
+                        <a  class="float-right
                         deletecomment " id="{{item.id}}"><i class="fas fa-trash-alt "></i></a>
-                        {% endif %}
-                        
-                        
+                        {% endif %}  
                 </div>
                 <div class="comment-content d-flex ml-5">
-                    <div class="comment-meta" id="contentcomment{{item.id}}">             
-                        <p id="detai{{item.id}}">{{ item.content }}</p>
+                    <div class="comment-meta w-100" id="contentcomment{{item.id}}">             
+                        <p id="detai{{item.id}}" style="word-wrap: break-word">{{ item.content }}</p>
                     </div>
                     
                 </div>
@@ -126,7 +138,7 @@
                                 data: { message : contentComment,
                                         id      :idComment
                                 },
-                            type: 'POST',
+                                type: 'POST',
                                 success: function(result){
                                     $('#contentcomment'+idComment).html('<p>'+ result +'</p>');
                                 }
@@ -158,7 +170,6 @@
 
             $('.like').click(function() {
             var idPost = $('.like'). attr("id");
-            console.log(idPost)
                 $.ajax({
                     url: "/like",
                     data:{
@@ -170,8 +181,12 @@
                             alert('you need login to like');
                         }else if (result == "like") {
                             $('.like').css("color", "red");
+                            $('#likes').html("Bạn và");
+                            $('#like').html('Bạn đã thích trang này')
                         }else if(result == "unlike"){
                             $('.like').css("color", "");
+                            $('#like').html("Hãy là người đầu tiên thích trang này");
+                            $('#likes').html("");
                         }
 
                     }

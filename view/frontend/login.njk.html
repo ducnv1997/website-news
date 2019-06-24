@@ -21,11 +21,11 @@ Login kenh69
                     <form action="/handlelogin" method="post">
                         <div class="form-group ">
                             <label for="username">username</label>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="username" value=""/>   
+                            <input type="text" class="form-control" name="username" id="username" placeholder="username" value="" required/>   
                         </div>
                         <div class="form-group">
                             <label for="password">password</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="password" value=""/>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="password" value="" required/>
 
                         </div>
                         <div class="text-center col-md-4 mx-auto">
@@ -108,7 +108,7 @@ Login kenh69
         data: {data: response},
         type: 'POST',
         success: function(results) {
-          window.location.href = 'http://localhost:' + results.toString()
+          window.location.href = 'https://kenh69.sphinx-demo.com';
         }
       })     
 

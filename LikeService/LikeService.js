@@ -14,7 +14,7 @@ class LikeService {
     }
 
     async unLike (id) {
-        return this.knex('likes').where('id', '=', id).del();
+        return await this.knex('likes').where('id', '=', id).del();
         
     }
 

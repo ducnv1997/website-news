@@ -32,9 +32,11 @@ const LikeController              = require('./controller/like_controller');
 const FacebookController          = require('./controller/facebook_controller');
 const NotFoundController          = require('./controller/notFound_controller');
 const InfoUSerController          = require('./controller/info_user_controller');
+const NotificationController      = require('./controller/notification_controller')
 
 const ValidatorFormMiddleware     = require('./middleware/validatorFormMiddleware');
-const notifi = require('./middleware/sendNotification')
+const CacheMIddleware   = require('./middleware/CacheMIddleware');
+
 const router = new Router();
 
 const validatorFormMiddleware     = new ValidatorFormMiddleware();
@@ -53,10 +55,12 @@ const likeController              = new LikeController();
 const facebookController          = new FacebookController(); 
 const notFoundController          = new NotFoundController();
 const infoUSerController          = new InfoUSerController();
+const cacheMIddleware             = new CacheMIddleware();
+const notificationController      = new NotificationController();
 
 
 
-router.get('/admin',loginController.loginView);
+router.get('/admin', loginController.loginView);
 router.get('/admin/dashboard',loginedMiddleware.checkAdminLogined,dashboardController.index);
 router.post('/admin/handlelogin',validatorFormMiddleware.validateFormLogin,loginController.handleLogin);
 router.post('/logout',dashboardController.logout);
@@ -79,8 +83,8 @@ router.post('/delete_file',postController.deleteImage);
 
 router.get('/admin/post',loginedMiddleware.checkAdminLogined,postController.index);
 router.get('/addpost',loginedMiddleware.checkAdminLogined,postController.addPost);
-router.post('/admin/handleaddpost',upload.single('avatar'),validatorFormMiddleware.validateFormPost, postController.handleAddPost,notifi );
-router.post('/admin/deletepost',postController.deletePost);
+router.post('/admin/handleaddpost',upload.single('avatar'),validatorFormMiddleware.validateFormPost, postController.handleAddPost,notificationController.sendNotification );
+router.post('/admin/deletepost',postController.deletePost,cacheMIddleware.destroyCachePostMostView);
 router.get('/admin/editpost',loginedMiddleware.checkAdminLogined,postController.editPost);
 router.post('/admin/handleeditpost',validatorFormMiddleware.validateFormEditPost,postController.handleEditPost);
 router.post('/admin/loadmore',loginedMiddleware.checkAdminLogined, postController.index);
@@ -89,10 +93,10 @@ router.get('/admin/search', loginedMiddleware.checkAdminLogined, validatorFormMi
 
 // Router fronend**********************************************************
 
-router.get('/', postControllerFrontend.index);
-router.get('/contentpost', postControllerFrontend.contentPost);
-router.get('/category', categoryControllerFrontend.index);
-router.get('/search',validatorFormMiddleware.validateFormSearch,postControllerFrontend.search);
+router.get('/', cacheMIddleware.savePosMostViewToCache,postControllerFrontend.index);
+router.get('/contentpost',cacheMIddleware.savePosMostViewToCache, postControllerFrontend.contentPost);
+router.get('/category',cacheMIddleware.savePosMostViewToCache, categoryControllerFrontend.index);
+router.get('/search',cacheMIddleware.savePosMostViewToCache,validatorFormMiddleware.validateFormSearch,postControllerFrontend.search);
 
 router.get('/login', logincontrollerfrontend.loginView);
 router.post('/handlelogin',validatorFormMiddleware.validateFormLogin,logincontrollerfrontend.handleLogin);
@@ -113,9 +117,7 @@ router.post('/handle-change-password',loginedMiddleware.checkUserLogined,validat
 router.get('/accountdetails', loginedMiddleware.checkUserLogined,infoUSerController.infoUser)
 router.post('/handleeditinfo',loginedMiddleware.checkUserLogined,upload.single('avatar'),validatorFormMiddleware.validateFormEditInfo,infoUSerController.handleeditinfo)
 
-router.post('/pushnotification', (context) => {
-  context.session.subscription  = context.request.body;
-});
+router.post('/sendtoken',notificationController.handleToken);
 
 module.exports = router;
 

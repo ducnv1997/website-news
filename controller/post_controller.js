@@ -57,8 +57,9 @@ class PostController {
 
     }
 
-    async deletePost(context) {
+    async deletePost(context, next) {
         context.response.body = await context.postRepository.deletePostById(context.request.body.id);
+        await next();
     }
 
     async editPost(context) {

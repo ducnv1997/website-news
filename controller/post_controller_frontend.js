@@ -1,4 +1,3 @@
-const moment = require('moment')
 
 class PostControllerFrontend {
 
@@ -11,7 +10,7 @@ class PostControllerFrontend {
             let totalPage       = await context.paginatorMiddelware.calculateTotalPage(limit, totalPost);
             let posts           = await context.postRepository.getAllPostByPage(limit,offset);
             let categories      = await context.categoryRepository.getAllCategory();
-            let postsMostView   = await context.postRepository.getPostMostView();
+            let postsMostView   = context.postsMostView;
             let user            = context.session.UserLogined;
             context.render('frontend/index.njk.html', {posts, categories, postsMostView, totalPage, currentPage, user});
        
@@ -31,14 +30,15 @@ class PostControllerFrontend {
             let post            = await context.postRepository.getDataPostById(context.query.id);
             let views           = await context.postRepository.increaseView(context.query.id, post[0].view);
             let categories      = await context.categoryRepository.getAllCategory();
-            let postsMostView   = await context.postRepository.getPostMostView();
+            let postsMostView   = context.postsMostView;
             let user            = context.session.UserLogined;
             let comments        = await context.commentService.getAllCommentByPost(context.query.id);
+            let likes           = await context.likeService.getAllLikeByPost(post[0].id)
 
             if(user) {
                 liked   = await context.likeService.checkLike(post[0].id, user.id);
             }
-            context.render('frontend/contentpost.njk.html', {post, categories, views, postsMostView, user, comments, liked, currentUrl});
+            context.render('frontend/contentpost.njk.html', {post, categories, views, postsMostView, user, comments, liked, currentUrl, likes});
         } catch (error) {
             context.redirect('/notfound');
         }
@@ -56,9 +56,10 @@ class PostControllerFrontend {
 
             let posts           = await context.postRepository.searchPostByKeyword(keyword, limit, offset);
             let categories      = await context.categoryRepository.getAllCategory();
-            let postsMostView   = await context.postRepository.getPostMostView();
+            let postsMostView   = context.postsMostView;
+            let user            = context.session.UserLogined;
 
-            context.render('frontend/searchpost.njk.html', {posts, categories, postsMostView, totalPage, currentPage, keyword});
+            context.render('frontend/searchpost.njk.html', {posts, categories, postsMostView, totalPage, currentPage, keyword, user});
             context.keyword = null;
         } catch (error) {
             context.alert('An error occurred. Please try again later');

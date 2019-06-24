@@ -1,9 +1,11 @@
 const validator   = require('validator');
 const xss         = require('xss');
 
+
 class ValidatorFormMiddleware {
 
     async validateFormLogin(context, next) {
+ 
         let username = validator.trim(context.request.body.username);
         let password = validator.trim(context.request.body.password);
 
@@ -74,7 +76,7 @@ class ValidatorFormMiddleware {
         if(!context.req.file) {
             context.alert("you need choice avatar post");
             return context.redirect('back');
-        }else if(!title, !description, !idCategory, !content) {
+        }else if(!title, !description, !idCategory) {
             context.alert('you need input full data to post');
             return context.redirect('back');
         }

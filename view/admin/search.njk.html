@@ -32,7 +32,7 @@
         <td>{{ item.category }}</td>
         <td>{{ item.view }}</td>
         <td>{{ item.user}}</td>
-        <td>{{ item.created_at.toDateString() }}</td>
+        <td>{{ item.created_at }}</td>
         <td>
           <a href="/admin/editpost?id={{ item.id }}" class="btn btn-info" >Edit</a>
         </td>
@@ -52,6 +52,8 @@ $(function (){
     $('.btnDelete').click(function() {
       let click = $(this);
       let idPost = click.attr( "id" );
+      let answer = confirm('do  you want delete');
+      if (answer) {
 					$.ajax({
 						url: "/admin/deletepost",
 						data: { id:idPost },
@@ -65,7 +67,8 @@ $(function (){
               }
               
 						}
-					});
+          });
+        }
       });
       
   })
