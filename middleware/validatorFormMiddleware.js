@@ -19,7 +19,6 @@ class ValidatorFormMiddleware {
         context.password = password;
         await next();
         
-
     }
 
     async validateFormRegister(context, next) {
