@@ -16,7 +16,6 @@ class PostControllerFrontend {
        
         } catch (error) {
 
-            context.alert('An error occurred. Please try again later');
             context.redirect('/notfound');
         }
       }
@@ -62,8 +61,7 @@ class PostControllerFrontend {
             context.render('frontend/searchpost.njk.html', {posts, categories, postsMostView, totalPage, currentPage, keyword, user});
             context.keyword = null;
         } catch (error) {
-            context.alert('An error occurred. Please try again later');
-            context.redirect('/');
+            context.redirect('/notfound');
         }
         
     }

@@ -10,9 +10,7 @@ class RegisterController{
 
         let checkUsername   = await context.userRepository.checkUsernameBeforeRegisterUser(context.username);
         
-        if (checkUsername.length) {
-            context.alert("username đã được sủ dụng");
-        }else {
+        if (!checkUsername.length) {
             await context.userRepository.registerUser(context.fullname, context.address, context.email, context.username, context.password);
             context.session.success = "Register success";
         }

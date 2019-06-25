@@ -11,22 +11,16 @@ class PostController {
              return context.response.body = {posts,limit};
         }
 
-        posts = await context.postRepository.getAllPostByPage(limit, start);
-
-        let user      = context.session.logined
+        posts       = await context.postRepository.getAllPostByPage(limit, start);
+        let user    = context.session.logined
         context.render('admin/post.njk.html', {posts, user});
         
 
     }
 
-    async getImages(context) {
+    async getAllImages(context) {
         context.body  = await context.image.readImages();
         
-    }
-    async uploadImages(context) {
-        context.alert('success');
-        context.redirect('back');
-
     }
 
     async deleteImage(context) {
@@ -42,11 +36,14 @@ class PostController {
     }
 
     async handleAddPost(context, next) {
+        let id = '';
         try {
-            await context.postRepository.addPost(context.title, context.idCategory, context.session.logined.id, context.content, context.description, context.pathAvatar);
+             id = await context.postRepository.addPost(context.title, context.idCategory, context.session.logined.id, context.content, context.description, context.pathAvatar);
         } catch (error) {
-             context.alert('An error occurred. Please try again later');
+            context.redirect('/notfound');
         }
+        
+        context.idpost      = id[0];
 
         context.idCategory  = null;
         context.content     = null;

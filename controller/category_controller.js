@@ -17,7 +17,6 @@ class CategoryController {
         let category = await context.categoryRepository.checkNameCategory(context.nameCategory);
         
        if(category.length) {
-            context.alert('Category name used');
             return context.redirect('back');
         }
         await context.categoryRepository.addCategory(context.nameCategory);
@@ -36,7 +35,6 @@ class CategoryController {
     async handleEditCategory(context) {
         let category = await context.categoryRepository.checkNameCategory(context.nameCategory);
         if(category.length) {
-            context.alert('Category name used');
             return context.redirect('back');
         }
 

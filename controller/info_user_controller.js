@@ -19,10 +19,9 @@ class InfoUserController {
             let user = await context.userRepository.getUserByUsername(context.session.UserLogined.username);
 
             context.authentication.createSessionUserLogined(user[0])
-            context.alert('success');
             
         } catch (error) {
-            context.alert('An error occurred. Please try again later');
+            context.redirect('/notfound');
         }
         context.redirect('back');
     }

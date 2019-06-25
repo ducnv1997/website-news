@@ -13,7 +13,6 @@ class ValidatorFormMiddleware {
         password = xss(password);
 
         if(validator.isEmpty(username) || validator.isEmpty(password)) {
-            context.alert('username and password is not empty');
             return context.redirect('back');
         }
 
@@ -33,11 +32,9 @@ class ValidatorFormMiddleware {
 
 
         if (validator.isEmpty(fullname) || validator.isEmpty(address) || validator.isEmpty(password)|| validator.isEmpty(username) || validator.isEmpty(email)) {
-            context.alert('you need input full data to resgister form');
             return context.redirect('back');
 
         }else if(!validator.isEmail(email)){
-            context.alert('email is not valid');
             return context.redirect('back');
         }
 
@@ -54,7 +51,6 @@ class ValidatorFormMiddleware {
         nameCategory        = xss(nameCategory);
 
         if(validator.isEmpty(nameCategory)){
-            context.alert('category name is not empty');
             return context.redirect('back');
         }
 
@@ -74,10 +70,8 @@ class ValidatorFormMiddleware {
         content         = xss(content);
 
         if(!context.req.file) {
-            context.alert("you need choice avatar post");
             return context.redirect('back');
-        }else if(!title, !description, !idCategory) {
-            context.alert('you need input full data to post');
+        }else if(!title || !description || !idCategory) {
             return context.redirect('back');
         }
 
@@ -90,10 +84,9 @@ class ValidatorFormMiddleware {
     }
 
     async checkUploadImagesToSever(context, next) {
-        if(context.req.files.length){
-            return await next();
+        if(!context.req.files.length){
+            return context.redirect('/notfound');
         }
-        context.alert('you need choice image');
         context.redirect('back');
     }
 
@@ -109,7 +102,6 @@ class ValidatorFormMiddleware {
         content         = xss(content);
 
         if(!title || !description || !idCategory || !content) {
-            context.alert('you need input full data to post');
             return context.redirect('back');
         }
 
@@ -138,7 +130,6 @@ class ValidatorFormMiddleware {
         message     = xss(message);
 
         if(validator.isEmpty(message)){
-            context.alert('message is empty');
             return context.redirect('back');
         }
         context.message = message;
@@ -156,12 +147,10 @@ class ValidatorFormMiddleware {
         newPassword             = xss(newPassword);
         confirmPawssword        = xss(confirmPawssword);
         if (validator.isEmpty(newPassword) || validator.isEmpty(confirmPawssword)) {
-            context.alert('form is empty');
             return context.redirect('back');
         }
 
         if (newPassword !== confirmPawssword) {
-            context.alert('The password does not match the confirmation password');
             return context.redirect('back');
         }
         context.newPassword =  await context.hasher.hashPassword(newPassword);;
@@ -181,7 +170,6 @@ class ValidatorFormMiddleware {
         address     = xss(address);
         email       = xss(email);
         if(email && !validator.isEmail(email)){
-            context.alert('email is not valid');
             return context.redirect('back');
         }
        

@@ -1,7 +1,7 @@
 {% extends "admin/layout.njk.html" %}
 
 {% block title %}
-Addd Post
+Add Post
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@ Addd Post
 </style>
 <h1>Page add post </h1>
 <form action="/admin/uploadimages" method="POST" enctype ="multipart/form-data">
-        <input type="file" name="image" multiple="multiple" class="btn" accept="image/*">
+        <input type="file" name="image" multiple="multiple" class="btn" accept="image/*" required>
         <button type="submit" class="btn btn-secondary">upload images to sever</button>
 </form>
 <hr class="my-3">
@@ -18,7 +18,7 @@ Addd Post
         <div class="col-md-3">
                 <div class="form-group">
                         <label for="title"> Title : </label>
-                        <textarea class="form-control" name="title" id="title" rows="5" required></textarea>
+                        <textarea class="form-control" name="title" id="title" rows="5" required maxlength="80" placeholder="Tối đa 80 kí tự"></textarea>
                 </div>
                 <div class="form-group border-top">
                         <p> Categories : </p>
@@ -35,7 +35,7 @@ Addd Post
                 </div>
                 <div class="form-group border-top mt-3">
                         <label for="description">Description</label>
-                        <textarea class="form-control" name="description" id="description" rows="5" required></textarea>
+                        <textarea class="form-control" name="description" id="description" rows="5" required maxlength="120" placeholder="tối đa 120 kí tự"></textarea>
                 </div>
         </div>	
         <div class="col-md-9 form-group">

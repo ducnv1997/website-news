@@ -4,8 +4,7 @@ class CommentController {
         try {
             await context.commentService.addComment(context.message, context.session.UserLogined.id, context.query.idpost);
         } catch (error) {
-            context.alert('An error occurred. Please try again later');
-            return context.redirect('/');
+            return context.redirect('/notfound');
         }
         context.redirect('back');
     }

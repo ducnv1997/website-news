@@ -9,7 +9,6 @@ class LoginControllerFrontend {
         
         let user  = await context.authentication.checkAcc(context.username,context.password);
         if(!user) { 
-            context.alert("username or password is incorrect");
             return context.redirect('/login');
         }
 

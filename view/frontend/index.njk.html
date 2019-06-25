@@ -53,16 +53,17 @@
     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-messaging.js"></script>
     <script>
         
-        firebase.initializeApp({
-            'messagingSenderId': '73174199799'
-        });
-        const messaging = firebase.messaging();
+    firebase.initializeApp({
+        'messagingSenderId': '73174199799'
+    });
+    const messaging = firebase.messaging();
 
-        Notification.requestPermission().then(() => {
-            messaging.getToken().then((currentToken) => {
-                sendTokenToServer(currentToken);
-            });
-        })
+    Notification.requestPermission().then(() => {
+        messaging.getToken().then((currentToken) => {
+            sendTokenToServer(currentToken);
+        });
+        
+    })
 
 
     function sendTokenToServer(currentToken) {

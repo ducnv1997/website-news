@@ -15,8 +15,6 @@ class LoginController {
 
             return context.redirect('/admin/dashboard');
         }
-
-        // context.alert('username or password is incorect');
         context.redirect('/admin');
         await next();
     }

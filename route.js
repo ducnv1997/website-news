@@ -77,8 +77,8 @@ router.post('/admin/appointuser',userController.appointUser);
 router.post('/admin/deleteuser',userController.deleleUser);
 router.post('/admin/demotiont',userController.demotiontUser);
 
-router.get('/files',loginedMiddleware.checkAdminLogined,postController.getImages);
-router.post('/admin/uploadimages',upload.array('image',100),validatorFormMiddleware.checkUploadImagesToSever, postController.uploadImages);
+router.get('/files',loginedMiddleware.checkAdminLogined,postController.getAllImages);
+router.post('/admin/uploadimages',upload.array('image',100),validatorFormMiddleware.checkUploadImagesToSever);
 router.post('/delete_file',postController.deleteImage);
 
 router.get('/admin/post',loginedMiddleware.checkAdminLogined,postController.index);

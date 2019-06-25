@@ -15,8 +15,7 @@ class CategoryControllerFrontend {
             context.render('frontend/category.njk.html', {posts, categories, postsMostView, totalPage, currentPage, user});
         
         } catch (error) {
-            context.alert('An error occurred');
-            context.redirect('/');
+            context.redirect('/notfound');
         }
 
       }
