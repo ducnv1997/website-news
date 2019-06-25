@@ -30,7 +30,6 @@ class ValidatorFormMiddleware {
         let username = validator.trim(context.request.body.username);
         let password = validator.trim(context.request.body.password);
 
-
         if (validator.isEmpty(fullname) || validator.isEmpty(address) || validator.isEmpty(password)|| validator.isEmpty(username) || validator.isEmpty(email)) {
             return context.redirect('back');
 
