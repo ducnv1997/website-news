@@ -15,7 +15,6 @@ class ValidatorFormMiddleware {
         if(validator.isEmpty(username) || validator.isEmpty(password)) {
             return context.redirect('back');
         }
-
         context.username = username;
         context.password = password;
         await next();
