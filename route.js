@@ -1,8 +1,8 @@
 const Router      = require('koa-router');
 
-const multer      =   require('koa-multer');
+const multer      = require('koa-multer');
 
-const storage     =   multer.diskStorage({
+const storage     = multer.diskStorage({
     destination: function (req, file, callback) {
       callback(null, './view/public/images');
     },

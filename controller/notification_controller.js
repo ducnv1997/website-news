@@ -23,7 +23,6 @@ class NotificationController {
         };
 
         context.fcm.sendToMultipleToken(message,tokens,function(err, response) {
-            console.log(response)
             for (let i = 0; i < response.length; i++) {
                 if (response[i].response == "Error sending message:") {
                     context.tokenRepository.deleteToken(response[i].token);

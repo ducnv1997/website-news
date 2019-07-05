@@ -1,6 +1,6 @@
 const router                    = require('./route');
 const koa                       = require('koa');
-const knexFile                  = require('./knexfile')
+const knexFile                  = require('./knexfile');
 const knex                      = require('knex')(knexFile['development']);
 const userProvider              = require('./user/user.provider');
 const cateProvider              = require('./category/category.provider');

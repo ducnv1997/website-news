@@ -14,8 +14,6 @@ class PostController {
         posts       = await context.postRepository.getAllPostByPage(limit, start);
         let user    = context.session.logined
         context.render('admin/post.njk.html', {posts, user});
-        
-
     }
 
     async getAllImages(context) {

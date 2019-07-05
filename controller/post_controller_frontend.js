@@ -12,8 +12,8 @@ class PostControllerFrontend {
             let categories      = await context.categoryRepository.getAllCategory();
             let postsMostView   = context.postsMostView;
             let user            = context.session.UserLogined;
+
             context.render('frontend/index.njk.html', {posts, categories, postsMostView, totalPage, currentPage, user});
-       
         } catch (error) {
 
             context.redirect('/notfound');
@@ -32,7 +32,7 @@ class PostControllerFrontend {
             let postsMostView   = context.postsMostView;
             let user            = context.session.UserLogined;
             let comments        = await context.commentService.getAllCommentByPost(context.query.id);
-            let likes           = await context.likeService.getAllLikeByPost(post[0].id)
+            let likes           = await context.likeService.getAllLikeByPost(post[0].id);
 
             if(user) {
                 liked   = await context.likeService.checkLike(post[0].id, user.id);
